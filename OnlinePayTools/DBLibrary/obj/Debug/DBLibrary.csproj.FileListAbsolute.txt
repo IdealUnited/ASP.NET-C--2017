@@ -1,0 +1,5 @@
+C:\Users\lijingneng\Documents\Visual Studio 2012\Projects\OnlinePayTools\DBLibrary\bin\Debug\DBLibrary.dll
+C:\Users\lijingneng\Documents\Visual Studio 2012\Projects\OnlinePayTools\DBLibrary\bin\Debug\DBLibrary.pdb
+C:\Users\lijingneng\Documents\Visual Studio 2012\Projects\OnlinePayTools\DBLibrary\obj\Debug\DBLibrary.csprojResolveAssemblyReference.cache
+C:\Users\lijingneng\Documents\Visual Studio 2012\Projects\OnlinePayTools\DBLibrary\obj\Debug\DBLibrary.dll
+C:\Users\lijingneng\Documents\Visual Studio 2012\Projects\OnlinePayTools\DBLibrary\obj\Debug\DBLibrary.pdb

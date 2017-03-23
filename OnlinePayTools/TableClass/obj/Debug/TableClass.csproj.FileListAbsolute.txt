@@ -1,0 +1,7 @@
+C:\Users\lijingneng\Documents\Visual Studio 2012\Projects\OnlinePayTools\TableClass\bin\Debug\TableClass.dll
+C:\Users\lijingneng\Documents\Visual Studio 2012\Projects\OnlinePayTools\TableClass\bin\Debug\TableClass.pdb
+C:\Users\lijingneng\Documents\Visual Studio 2012\Projects\OnlinePayTools\TableClass\bin\Debug\Database.dll
+C:\Users\lijingneng\Documents\Visual Studio 2012\Projects\OnlinePayTools\TableClass\bin\Debug\Database.pdb
+C:\Users\lijingneng\Documents\Visual Studio 2012\Projects\OnlinePayTools\TableClass\obj\Debug\TableClass.csprojResolveAssemblyReference.cache
+C:\Users\lijingneng\Documents\Visual Studio 2012\Projects\OnlinePayTools\TableClass\obj\Debug\TableClass.dll
+C:\Users\lijingneng\Documents\Visual Studio 2012\Projects\OnlinePayTools\TableClass\obj\Debug\TableClass.pdb

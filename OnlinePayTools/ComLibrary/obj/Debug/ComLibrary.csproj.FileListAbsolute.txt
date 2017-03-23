@@ -1,0 +1,5 @@
+C:\Users\lijingneng\Documents\Visual Studio 2012\Projects\OnlinePayTools\ComLibrary\bin\Debug\ComLibrary.dll
+C:\Users\lijingneng\Documents\Visual Studio 2012\Projects\OnlinePayTools\ComLibrary\bin\Debug\ComLibrary.pdb
+C:\Users\lijingneng\Documents\Visual Studio 2012\Projects\OnlinePayTools\ComLibrary\obj\Debug\ComLibrary.csprojResolveAssemblyReference.cache
+C:\Users\lijingneng\Documents\Visual Studio 2012\Projects\OnlinePayTools\ComLibrary\obj\Debug\ComLibrary.dll
+C:\Users\lijingneng\Documents\Visual Studio 2012\Projects\OnlinePayTools\ComLibrary\obj\Debug\ComLibrary.pdb

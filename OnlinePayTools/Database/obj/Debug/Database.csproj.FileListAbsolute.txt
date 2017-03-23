@@ -1,0 +1,4 @@
+C:\Users\lijingneng\Documents\Visual Studio 2012\Projects\OnlinePayTools\Database\bin\Debug\Database.dll
+C:\Users\lijingneng\Documents\Visual Studio 2012\Projects\OnlinePayTools\Database\bin\Debug\Database.pdb
+C:\Users\lijingneng\Documents\Visual Studio 2012\Projects\OnlinePayTools\Database\obj\Debug\Database.dll
+C:\Users\lijingneng\Documents\Visual Studio 2012\Projects\OnlinePayTools\Database\obj\Debug\Database.pdb
