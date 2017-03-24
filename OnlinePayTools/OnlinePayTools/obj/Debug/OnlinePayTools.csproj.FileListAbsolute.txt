@@ -14,3 +14,6 @@ C:\Users\lijingneng\Documents\Visual Studio 2012\Projects\OnlinePayTools\OnlineP
 C:\Users\lijingneng\Documents\Visual Studio 2012\Projects\OnlinePayTools\OnlinePayTools\bin\Debug\ComLibrary.pdb
 C:\Users\lijingneng\Documents\Visual Studio 2012\Projects\OnlinePayTools\OnlinePayTools\bin\Debug\SandLibrary.pdb
 C:\Users\lijingneng\Documents\Visual Studio 2012\Projects\OnlinePayTools\OnlinePayTools\bin\Debug\local.mdb
+C:\Users\lijingneng\Source\Repos\ASP.NET-C--2017\OnlinePayTools\OnlinePayTools\bin\Debug\OnlinePayTools.exe.config
+C:\Users\lijingneng\Source\Repos\ASP.NET-C--2017\OnlinePayTools\OnlinePayTools\obj\Debug\OnlinePayTools.exe
+C:\Users\lijingneng\Source\Repos\ASP.NET-C--2017\OnlinePayTools\OnlinePayTools\obj\Debug\OnlinePayTools.pdb

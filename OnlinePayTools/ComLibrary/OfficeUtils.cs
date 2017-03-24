@@ -69,10 +69,6 @@ namespace ComLibrary
                         throw new Exception("数据为空！请检查文件。");
                     }
                 }
-                if (tb1.Rows[0][0] !="订单号")
-                {
-                    throw new Exception("数据模板不对，请选择正确的数据模板。");
-                }
                 conn.Close();
                 return tb1;
             }

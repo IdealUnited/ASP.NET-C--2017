@@ -11,6 +11,7 @@ using System.Data;
 using System.Data.Common;
 using System.Data.SqlClient;
 using System.Drawing;
+using System.Globalization;
 using System.IO;
 using System.Text;
 using System.Threading;
@@ -24,7 +25,7 @@ namespace OnlinePayTools
         //public static bool IsRunning = false;
         LogUtil log = new LogUtil();
         private List<ChannelInfo> channelInfoList = new List<ChannelInfo>() { new ChannelInfo("100001", "杉德支付平台"), new ChannelInfo("100002", "盛迪嘉支付平台") };
-       
+
         public MainFrm()
         {
             InitializeComponent();
@@ -41,9 +42,8 @@ namespace OnlinePayTools
             this.cmbSYS.SelectedIndex = 0;
             this.rbSingle.Checked = true;
             this.rbSinglePay.Checked = true;
-            btnRefresh_Click(null, null);
-            this.initDFRequestData();
-            this.btnRefresh.Click += new EventHandler(btnRefresh_Click);
+            //btnRefresh_Click(null, null);
+            //this.initSandDFRequestData();
 
             try
             {
@@ -56,9 +56,11 @@ namespace OnlinePayTools
                     this.cmbMerchant.DataSource = mchInfoList;
                     this.cmbMerchant.DisplayMember = "mchName";
                     this.cmbMerchant.ValueMember = "mchId";
+                    this.cmbMerchant.SelectedIndex = 0;
                     this.cmbPay.DataSource = mchInfoList;
                     this.cmbPay.DisplayMember = "mchName";
                     this.cmbPay.ValueMember = "mchId";
+                    this.cmbPay.SelectedIndex = 0;
                 }
             }
             catch (System.Exception ex)
@@ -87,25 +89,25 @@ namespace OnlinePayTools
         private void loadInitChannelConfig()
         {
 
-            try
-            {
-                Settings cfg = Settings.Default;
-                DbUtility dbUtil = new DbUtility(cfg.localConnectionString, DbProviderType.OleDb);
-                string strSelectSql = "select * from ChannelConfig where 1=1 and channelCode='100001'";
-                List<MerchantInfo> mchInfoList = dbUtil.QueryForList<MerchantInfo>(strSelectSql, null);
-                if (mchInfoList != null && mchInfoList.Count > 0)
-                {
-                    this.txbMchID.Text = mchInfoList[0].MchId;
-                    this.txbMchName.Text = mchInfoList[0].MchName;
-                    this.txtPFXPath.Text = mchInfoList[0].Code2;
-                    this.txtPFXPwd.Text = mchInfoList[0].Code1;
-                    this.txtCERPath.Text = mchInfoList[0].Code3;
-                }
-            }
-            catch (System.Exception ex)
-            {
-                log.Write("初始化杉德渠道数错误：" + ex.Message);
-            }
+            //try
+            //{
+            //    Settings cfg = Settings.Default;
+            //    DbUtility dbUtil = new DbUtility(cfg.localConnectionString, DbProviderType.OleDb);
+            //    string strSelectSql = "select * from ChannelConfig where 1=1 and channelCode='100001'";
+            //    List<MerchantInfo> mchInfoList = dbUtil.QueryForList<MerchantInfo>(strSelectSql, null);
+            //    if (mchInfoList != null && mchInfoList.Count > 0)
+            //    {
+            //        this.txbMchID.Text = mchInfoList[0].MchId;
+            //        this.txbMchName.Text = mchInfoList[0].MchName;
+            //        this.txtPFXPath.Text = mchInfoList[0].Code2;
+            //        this.txtPFXPwd.Text = mchInfoList[0].Code1;
+            //        this.txtCERPath.Text = mchInfoList[0].Code3;
+            //    }
+            //}
+            //catch (System.Exception ex)
+            //{
+            //    log.Write("初始化杉德渠道数错误：" + ex.Message);
+            //}
 
         }
 
@@ -159,13 +161,13 @@ namespace OnlinePayTools
             }
         }
 
-        private void rbBatchPay_Click(object sender, EventArgs e)
+        private void rbBatchPay_CheckedChanged(object sender, EventArgs e)
         {
             if (rbSinglePay.Checked)
             {
                 this.tpSinglePay.Parent = tcDF;
                 this.tpBatchPay.Parent = null;
-                //this.tcDK.SelectedTab = tpSingle;
+                //this.tcDF.SelectedTab = tpSinglePay;
             }
             else if (rbBatchPay.Checked)
             {
@@ -174,6 +176,7 @@ namespace OnlinePayTools
                 this.tcDF.SelectedTab = tpBatchPay;
             }
         }
+
         #endregion
 
         #region 参数刷新
@@ -184,44 +187,7 @@ namespace OnlinePayTools
         /// <param name="e"></param>
         private void btnRefresh_Click(object sender, EventArgs e)
         {
-            this.dgvRequestParam.Rows.Clear();
-
-            SandDKRequestParamList sandParams = new SandDKRequestParamList();
-            foreach (KeyValuePair<string, object> kvp in sandParams.GetKeyValue())
-            {
-                DataGridViewRow row = new DataGridViewRow();
-                DataGridViewTextBoxCell tbKeyCell = new DataGridViewTextBoxCell();
-                string[] keySplitStr = kvp.Key.Split('|');
-                if (keySplitStr.Length == 4)//带类型
-                {
-                    tbKeyCell.Value = keySplitStr[0] + "|" + keySplitStr[1];
-                    row.Cells.Add(tbKeyCell);
-                    string type = keySplitStr[2];
-                    string visble = keySplitStr[3];
-                    switch (type)
-                    {
-                        case "s":
-                            DataGridViewTextBoxCell tbValueCell = new DataGridViewTextBoxCell();
-                            tbValueCell.Value = kvp.Value;
-                            row.Cells.Add(tbValueCell);
-                            this.dgvRequestParam.Rows.Add(row);
-                            break;
-                        case "listDic":
-                            DataGridViewComboBoxCell cbKeyCell = new DataGridViewComboBoxCell();
-                            cbKeyCell.DataSource = (List<DictionaryEntry>)kvp.Value;
-                            cbKeyCell.DisplayMember = "Key";
-                            cbKeyCell.ValueMember = "Value";
-                            row.Cells.Add(cbKeyCell);
-                            this.dgvRequestParam.Rows.Add(row);
-                            break;
-                    }
-                    if (visble != "Y")
-                    {
-                        row.Visible = false;
-                    }
-                }
-            }
-
+            initSandDKRequestData();
         }
         /// <summary>
         /// 代付请求参数刷新
@@ -230,13 +196,14 @@ namespace OnlinePayTools
         /// <param name="e"></param>
         private void btnRefreshPay_Click(object sender, EventArgs e)
         {
-            this.initDFRequestData();
+            this.initSandDFRequestData();
         }
         /// <summary>
         /// 代付请求参数初始化
         /// </summary>
-        private void initDFRequestData()
+        private void initSandDFRequestData()
         {
+            this.dgvPayRequest.DataSource = null;
             this.dgvPayRequest.Rows.Clear();
             SandDFRequestParamList sandParams = new SandDFRequestParamList();
             foreach (KeyValuePair<string, object> kvp in sandParams.GetKeyValue())
@@ -265,6 +232,48 @@ namespace OnlinePayTools
                             cbKeyCell.ValueMember = "Value";
                             row.Cells.Add(cbKeyCell);
                             this.dgvPayRequest.Rows.Add(row);
+                            dgvPayRequest.Rows[cbKeyCell.RowIndex].Cells["DF_VALUE"].Value = ((List<DictionaryEntry>)kvp.Value)[0].Value;
+                            break;
+                    }
+                    if (visble != "Y")
+                    {
+                        row.Visible = false;
+                    }
+                }
+            }
+        }
+        private void initSandDKRequestData()
+        {
+            this.dgvRequestParam.DataSource = null;
+            this.dgvRequestParam.Rows.Clear();
+            SandDKRequestParamList sandParams = new SandDKRequestParamList();
+            foreach (KeyValuePair<string, object> kvp in sandParams.GetKeyValue())
+            {
+                DataGridViewRow row = new DataGridViewRow();
+                DataGridViewTextBoxCell tbKeyCell = new DataGridViewTextBoxCell();
+                string[] keySplitStr = kvp.Key.Split('|');
+                if (keySplitStr.Length == 4)//带类型
+                {
+                    tbKeyCell.Value = keySplitStr[0] + "|" + keySplitStr[1];
+                    row.Cells.Add(tbKeyCell);
+                    string type = keySplitStr[2];
+                    string visble = keySplitStr[3];
+                    switch (type)
+                    {
+                        case "s":
+                            DataGridViewTextBoxCell tbValueCell = new DataGridViewTextBoxCell();
+                            tbValueCell.Value = kvp.Value;
+                            row.Cells.Add(tbValueCell);
+                            this.dgvRequestParam.Rows.Add(row);
+                            break;
+                        case "listDic":
+                            DataGridViewComboBoxCell cbKeyCell = new DataGridViewComboBoxCell();
+                            cbKeyCell.DataSource = (List<DictionaryEntry>)kvp.Value;
+                            cbKeyCell.DisplayMember = "Key";
+                            cbKeyCell.ValueMember = "Value";
+                            row.Cells.Add(cbKeyCell);
+                            this.dgvRequestParam.Rows.Add(row);
+                            dgvRequestParam.Rows[cbKeyCell.RowIndex].Cells["DK_VALUE"].Value = ((List<DictionaryEntry>)kvp.Value)[0].Value;
                             break;
                     }
                     if (visble != "Y")
@@ -288,12 +297,37 @@ namespace OnlinePayTools
         }
 
         /// <summary>
-        /// 选择商户信息
+        /// 选择代扣商户信息
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void cmbMerchant_SelectedIndexChanged(object sender, EventArgs e)
         {
+            MerchantInfo mchInfo = (MerchantInfo)this.cmbMerchant.SelectedItem;
+            if (mchInfo != null)
+            {
+                switch (mchInfo.ChannelCode)
+                {
+                    case "100001":
+                        initSandDKRequestData();
+                        break;
+                }
+            }
+
+        }
+
+        private void cmbPay_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            MerchantInfo mchInfo = (MerchantInfo)this.cmbMerchant.SelectedItem;
+            if (mchInfo != null)
+            {
+                switch (mchInfo.ChannelCode)
+                {
+                    case "100001":
+                        this.initSandDFRequestData();
+                        break;
+                }
+            }
 
         }
 
@@ -328,13 +362,13 @@ namespace OnlinePayTools
                 {
                     string key = "";
                     string value = "";
-                    if (dgvRequestParam.Rows[i].Cells["VALUE"] == null || dgvRequestParam.Rows[i].Cells["VALUE"].Value == null)
+                    if (dgvRequestParam.Rows[i].Cells["DK_VALUE"] == null || dgvRequestParam.Rows[i].Cells["DK_VALUE"].Value == null)
                     {
-                        MessageBox.Show("请选择" + dgvRequestParam.Rows[i].Cells["NAME"].Value.ToString().Trim() + "的值");
+                        MessageBox.Show("请选择" + dgvRequestParam.Rows[i].Cells["DK_NAME"].Value.ToString().Trim() + "的值");
                         return;
                     }
-                    string nameField = dgvRequestParam.Rows[i].Cells["NAME"].Value.ToString().Trim();
-                    string valueField = dgvRequestParam.Rows[i].Cells["VALUE"].Value.ToString().Trim();
+                    string nameField = dgvRequestParam.Rows[i].Cells["DK_NAME"].Value.ToString().Trim();
+                    string valueField = dgvRequestParam.Rows[i].Cells["DK_VALUE"].Value.ToString().Trim();
 
                     if (nameField != null && nameField.Split('|').Length == 2)
                     {
@@ -491,8 +525,13 @@ namespace OnlinePayTools
             string pfxPwd = mchInfo.Code1;
             string pfxPath = mchInfo.Code2;
             string cerPath = mchInfo.Code3;
+            switch (mchInfo.ChannelCode)
+            {
+                case "100001":
+                    doSandDK(this.dgvRequestParam, null, mchId, mchName, pfxPath, pfxPwd, cerPath);
+                    break;
 
-            doSandDK(this.dgvRequestParam, null, mchId, mchName, pfxPath, pfxPwd, cerPath);
+            }
 
         }
         #endregion
@@ -516,33 +555,113 @@ namespace OnlinePayTools
             }
         }
         /// <summary>
+        ///选择代付批量文件
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void btnSelectPayFile_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog fileDialog = new OpenFileDialog();
+            fileDialog.Multiselect = true;
+            fileDialog.Title = "请选择文件";
+            fileDialog.Filter = "所有文件(*.*)|*.*";
+            if (fileDialog.ShowDialog() == DialogResult.OK)
+            {
+                string file = fileDialog.FileName;
+                this.txbBatchPayFile.Text = file;
+            }
+        }
+        /// <summary>
         /// 批量代扣提交
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void btnBatchSubmit_Click(object sender, EventArgs e)
         {
-            //获取商户信息
-
-            MerchantInfo mchInfo = (MerchantInfo)this.cmbMerchant.SelectedItem;
-            if (mchInfo == null)
+            try
             {
-                MessageBox.Show("请选择代扣商户");
-                return;
+                //获取商户信息
+                MerchantInfo mchInfo = (MerchantInfo)this.cmbMerchant.SelectedItem;
+                if (mchInfo == null)
+                {
+                    MessageBox.Show("请选择代扣商户");
+                    return;
+                }
+                string mchId = mchInfo.MchId;
+                string mchName = mchInfo.MchName;
+                string pfxPwd = mchInfo.Code1;
+                string pfxPath = mchInfo.Code2;
+                string cerPath = mchInfo.Code3;
+                //解析文件
+                string xlsFile = this.txtBatchFile.Text;
+                DataTable dt = OfficeUtils.readExcelToDataTable(xlsFile);
+                if (dt != null && dt.Rows.Count >= 1 && dt.Rows[0][0].ToString() != "订单号")
+                {
+                    throw new Exception("数据模板不对，请选择正确的数据模板。");
+                }
+                switch (mchInfo.ChannelCode)
+                {
+                    case "100001":
+                        doSandDK(null, dt, mchId, mchName, pfxPath, pfxPwd, cerPath);
+                        break;
+
+                }
             }
-            string mchId = mchInfo.MchId;
-            string mchName = mchInfo.MchName;
-            string pfxPwd = mchInfo.Code1;
-            string pfxPath = mchInfo.Code2;
-            string cerPath = mchInfo.Code3;
-            //解析文件
-            string xlsFile = this.txtBatchFile.Text;
-            DataTable dt = OfficeUtils.readExcelToDataTable(xlsFile);
-            doSandDK(null, dt, mchId, mchName, pfxPath, pfxPwd, cerPath);
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+        /// <summary>
+        /// 代付批量提交
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void btnBatchPaySubmit_Click(object sender, EventArgs e)
+        {
+
         }
         #endregion
 
         //商户信息设置
+        /// <summary>
+        /// 这只pfx文件路径
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void btnPFXSelect_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog fileDialog = new OpenFileDialog();
+            fileDialog.Multiselect = true;
+            fileDialog.Title = "请选择文件";
+            fileDialog.Filter = "所有文件(*.*)|*.*";
+            if (fileDialog.ShowDialog() == DialogResult.OK)
+            {
+                string file = fileDialog.FileName;
+                this.txtPFXPath.Text = file;
+            }
+
+        }
+
+        /// <summary>
+        /// 设置cer证书路径
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void btnCERSelect_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog fileDialog = new OpenFileDialog();
+            fileDialog.Multiselect = true;
+            fileDialog.Title = "请选择文件";
+            fileDialog.Filter = "所有文件(*.*)|*.*";
+            if (fileDialog.ShowDialog() == DialogResult.OK)
+            {
+                string file = fileDialog.FileName;
+                this.txtCERPath.Text = file;
+            }
+
+        }
+
         /// <summary>
         /// 商户信息保存
         /// </summary>
@@ -634,41 +753,24 @@ namespace OnlinePayTools
         }
 
         /// <summary>
-        /// 这只pfx文件路径
+        /// 渠道信息查询
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void btnPFXSelect_Click(object sender, EventArgs e)
+        private void btnQueryChannel_Click(object sender, EventArgs e)
         {
-            OpenFileDialog fileDialog = new OpenFileDialog();
-            fileDialog.Multiselect = true;
-            fileDialog.Title = "请选择文件";
-            fileDialog.Filter = "所有文件(*.*)|*.*";
-            if (fileDialog.ShowDialog() == DialogResult.OK)
+            try
             {
-                string file = fileDialog.FileName;
-                this.txtPFXPath.Text = file;
+                String sqlId = "select * from ChannelConfig c where c.channelCode='" + this.cmbSYS.SelectedValue.ToString() + "'";
+                Settings cfg = Settings.Default;
+                DbUtility dbUtil = new DbUtility(cfg.localConnectionString, DbProviderType.OleDb);
+                DataTable dt = dbUtil.ExecuteDataTable(sqlId, null);
+                this.dgvChannelInfo.DataSource = dt;
             }
-
-        }
-
-        /// <summary>
-        /// 设置cer证书路径
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void btnCERSelect_Click(object sender, EventArgs e)
-        {
-            OpenFileDialog fileDialog = new OpenFileDialog();
-            fileDialog.Multiselect = true;
-            fileDialog.Title = "请选择文件";
-            fileDialog.Filter = "所有文件(*.*)|*.*";
-            if (fileDialog.ShowDialog() == DialogResult.OK)
+            catch (System.Exception ex)
             {
-                string file = fileDialog.FileName;
-                this.txtCERPath.Text = file;
+                MessageBox.Show(ex.Message);
             }
-
         }
 
         //订单查询
@@ -707,30 +809,6 @@ namespace OnlinePayTools
             }
         }
 
-        /// <summary>
-        /// 临时操作：删除数据
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void button1_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                //String sqlId = "select * from ChannelConfig";
-                //string sqlId = "select * from CollectionOrder c inner join ChannelConfig m on c.mchId=m.mchId  where 1=1 and c.status='1' and c.createTime >=#" + DateTime.Now.AddMinutes(-30) + "# and c.createTime <=#" + DateTime.Now + "#";
-                Settings cfg = Settings.Default;
-                DbUtility dbUtil = new DbUtility(cfg.localConnectionString, DbProviderType.OleDb);
-                string sqlId = "delete from CollectionOrder c ";
-                int no = dbUtil.ExecuteNonQuery(sqlId, null);
-                //DataTable dt = dbUtil.ExecuteDataTable(sqlId, null);
-                //dgv_sd.DataSource = dt;
-            }
-            catch (System.Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
-        }
-
         //查询独立进程
         /// <summary>
         /// 订单自动查询进程
@@ -745,7 +823,8 @@ namespace OnlinePayTools
                 try
                 {
                     //获取商户信息
-                    string sqlStr = "select * from CollectionOrder c inner join ChannelConfig m on c.mchId=m.mchId  where 1=1 and c.status='0' and c.createTime >=#" + DateTime.Now.AddMinutes(-30) + "# and c.createTime <=#" + DateTime.Now.AddMinutes(-5) + "#";
+                    string sqlStr = "select * from CollectionOrder c inner join ChannelConfig m on c.mchId=m.mchId  where 1=1 and c.status='0' and c.createTime >=#" + DateTime.Now.AddMinutes(-60) + "# and c.createTime <=#" + DateTime.Now.AddMinutes(-5) + "#";
+                    //string sqlStr = "select * from CollectionOrder c inner join ChannelConfig m on c.mchId=m.mchId  where 1=1 and c.createTime >=#" + DateTime.Now.AddMinutes(-30) + "# and c.createTime <=#" + DateTime.Now.AddMinutes(-1) + "#";
                     Settings cfg = Settings.Default;
                     DbUtility dbUtil = new DbUtility(cfg.localConnectionString, DbProviderType.OleDb);
                     DataTable dt = dbUtil.ExecuteDataTable(sqlStr, null);
@@ -753,6 +832,7 @@ namespace OnlinePayTools
                     {
                         for (int i = 0; i < dt.Rows.Count; i++)
                         {
+                            string sysId = dt.Rows[i]["channelCode"].ToString();
                             string orderId = dt.Rows[i]["orderId"].ToString();
                             string mchId = dt.Rows[i]["m.mchId"].ToString();
                             string mchName = dt.Rows[i]["m.mchName"].ToString();
@@ -760,68 +840,14 @@ namespace OnlinePayTools
                             string pfxPwd = dt.Rows[i]["code1"].ToString();
                             string cerPath = dt.Rows[i]["code3"].ToString();
                             string payType = dt.Rows[i]["payType"].ToString();
-                            Dictionary<string, string> dic = new Dictionary<string, string>();
+                            string orderType = dt.Rows[i]["orderType"].ToString();
+                            string transTime = dt.Rows[i]["c.createTime"].ToString();
+                            switch (sysId)
+                            {
+                                case "100001":
+                                    doSandQuery(orderId, mchId,transTime, mchName, pfxPath, pfxPwd, cerPath, payType, orderType);
+                                    break;
 
-                            dic.Add("version", "01");
-                            if (payType == "0")
-                            {
-                                dic.Add("productId", "00000002");// 代收对公    00000001 代收对私    00000002  代付对私    00000004 
-                            }
-                            else if (payType == "1")
-                            {
-                                dic.Add("productId", "00000001");// 代收对公    00000001 代收对私    00000002  代付对私    00000004 
-                            }
-
-                            dic.Add("tranTime", DateTime.Now.ToString("yyyyMMddHHmmss"));
-                            dic.Add("orderCode", orderId);
-                            JavaScriptSerializer jsonSer = new JavaScriptSerializer();
-
-                            Dictionary<string, string> dicRslt;
-                            //解密后的服务器返回
-                            MessageCryptWorker.trafficMessage resp = QueryOrderMessage(dic, pfxPath, pfxPwd, cerPath, mchId);
-                            //检查验签结果
-                            log.Write("验签结果" + resp.sign);
-                            //解析报文，读取业务报文体内具体字段的值
-                            log.Write(resp.encryptData, MsgType.Information);
-                            dicRslt = jsonSer.Deserialize<Dictionary<string, string>>(resp.encryptData);
-                            //dicRslt = (Dictionary<string, string>)JsonUtil.JsonToObject(resp.encryptData, dicRslt);
-                            string orderCode = dicRslt.ContainsKey("orderCode") ? dicRslt["orderCode"] : "";
-                            string respCode = dicRslt.ContainsKey("respCode") ? dicRslt["respCode"] : "";
-                            string respDesc = dicRslt.ContainsKey("respDesc") ? dicRslt["respDesc"] : "";
-                            string sandSerial = dicRslt.ContainsKey("sandSerial") ? dicRslt["sandSerial"] : "";
-                            string resultFlag = dicRslt.ContainsKey("resultFlag") ? dicRslt["resultFlag"] : "";
-                            log.Write("respCode[" + respCode + "]" + "respDesc[" + respDesc + "]");
-                            string status = "0";
-
-                            if ("0000".Equals(respCode))
-                            {
-                                if ("0".Equals(resultFlag))
-                                {
-                                    status = "1";
-                                }
-                                else if ("1".Equals(resultFlag))
-                                {
-                                    status = "2";
-                                }
-                            }
-                            try
-                            {
-                                string strUpdateSql = "update CollectionOrder set "
-                                       + " status = " + status
-                                       + ", updateTime='" + DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss") + "'"
-                                       + ", bankOrderNo='" + sandSerial + "'"
-                                       + ",respCode='" + respCode + "'"
-                                       + ",respMsg='" + respDesc + "'"
-                                       + " where orderId='" + orderCode + "'";
-                                cfg = Settings.Default;
-                                dbUtil = new DbUtility(cfg.localConnectionString, DbProviderType.OleDb);
-                                int effectNo = dbUtil.ExecuteNonQuery(strUpdateSql, null);
-                            }
-                            catch (Exception ex)
-                            {
-                                MessageBox.Show(ex.Message);
-                                log.Write(ex, MsgType.Error);
-                                return;
                             }
                         }
                     }
@@ -834,8 +860,8 @@ namespace OnlinePayTools
             }
         }
 
-        #region 杉德代付代扣提交
-        
+        #region 杉德支付平台
+
         /// <summary>
         /// 杉德代扣处理
         /// </summary>
@@ -859,13 +885,13 @@ namespace OnlinePayTools
                 {
                     string key = "";
                     string value = "";
-                    if (dgvRequestParam.Rows[i].Cells["VALUE"] == null || dgvRequestParam.Rows[i].Cells["VALUE"].Value == null)
+                    if (dgvRequestParam.Rows[i].Cells["DK_VALUE"] == null || dgvRequestParam.Rows[i].Cells["DK_VALUE"].Value == null)
                     {
-                        MessageBox.Show("请选择" + dgvRequestParam.Rows[i].Cells["NAME"].Value.ToString().Trim() + "的值");
+                        MessageBox.Show("请选择" + dgvRequestParam.Rows[i].Cells["DK_NAME"].Value.ToString().Trim() + "的值");
                         return;
                     }
-                    string nameField = dgvRequestParam.Rows[i].Cells["NAME"].Value.ToString().Trim();
-                    string valueField = dgvRequestParam.Rows[i].Cells["VALUE"].Value.ToString().Trim();
+                    string nameField = dgvRequestParam.Rows[i].Cells["DK_NAME"].Value.ToString().Trim();
+                    string valueField = dgvRequestParam.Rows[i].Cells["DK_VALUE"].Value.ToString().Trim();
 
                     if (nameField != null && nameField.Split('|').Length == 2)
                     {
@@ -873,7 +899,13 @@ namespace OnlinePayTools
                         value = valueField;
                         if (key == "tranAmt")
                         {
-                            value = (Convert.ToInt64(value) * 100).ToString().PadLeft(12, '0');
+                            int amount = 0;
+                            if (!int.TryParse(value, out amount))
+                            {
+                                MessageBox.Show("代扣金额格式不正确");
+                                return;
+                            }
+                            value = (Convert.ToInt64(amount) * 100).ToString().PadLeft(12, '0');
                         }
                         tempDic.Add(key, value);
                     }
@@ -896,7 +928,7 @@ namespace OnlinePayTools
                         return;
                     }
                     string amountStr = (Convert.ToInt64(amount) * 100).ToString().PadLeft(12, '0');
-                    tempDic.Add("tranAmt", dt.Rows[i][1].ToString());
+                    tempDic.Add("tranAmt", amountStr);
                     tempDic.Add("currencyCode", "156");
                     tempDic.Add("accAttr", dt.Rows[i][2].ToString());
                     tempDic.Add("accType", dt.Rows[i][3].ToString());
@@ -911,20 +943,20 @@ namespace OnlinePayTools
                     tempDic.Add("phone", dt.Rows[i][9].ToString());
                     tempDic.Add("bankInsCode", "");
                     tempDic.Add("purpose", "collection");
-                    tempDic.Add("reqReserved|请求方保留域|s|N", "");
+                    tempDic.Add("reqReserved", "");
                     tempDic.Add("extend", "");
                     batchDKparams.Add(tempDic);
                 }
             }
             try
             {
-                int count=0;
+                int count = 0;
                 List<string> successRecord = new List<string>();
                 List<string> errorRecord = new List<string>();
                 List<string> processingRecord = new List<string>();
                 foreach (Dictionary<string, string> dic in batchDKparams)
-                {   
-                   count++;
+                {
+                    count++;
                     string orderId = "200" + DateTime.Now.ToString("yyyyMMddHHmmss").Substring(2) + ComUtils.CreateRandomNum(4);
                     //orderId,mchId,mchName,status,amount,bankOrderNo,outOrderId,,createTime,updateTime,respCode,respMsg,remark
                     try
@@ -941,6 +973,10 @@ namespace OnlinePayTools
                             dic.Add("productId", "00000001");
                         }
 
+                        //杉德的tranTime需要用于查询    
+                        DateTime tranDt = DateTime.ParseExact(dic["tranTime"], "yyyyMMddHHmmss", System.Globalization.CultureInfo.CurrentCulture);
+                        //DateTime tranDt = Convert.ToDateTime(dic["tranTime"], IFormatProvider);
+
                         //保存记录
                         string strInsertSql = "insert into CollectionOrder(orderId,orderType,mchId,mchName,status,amount,payType,bankOrderNo,outOrderId,createTime,updateTime,respCode,respMsg,remark)"
                                + " VALUES ('" + orderId + "'"
@@ -952,7 +988,7 @@ namespace OnlinePayTools
                                + ",'" + payType + "'"//对公对私标识
                                + ",''"
                                + ",'" + dic["orderCode"] + "'"
-                               + ",'" + DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss") + "'"
+                               + ",'" + tranDt.ToString("yyyy/MM/dd HH:mm:ss") + "'"
                                + ",null"
                                + ",''"
                                + ",''"
@@ -1034,9 +1070,10 @@ namespace OnlinePayTools
                         else if ("1".Equals(resultFlag))
                         {
                             errorRecord.Add(orderCode);
-                            if (1 == batchDKparams.Count) {
+                            if (1 == batchDKparams.Count)
+                            {
                                 MessageBox.Show("代扣失败，错误原因：" + respDesc);
-                            }                           
+                            }
                         }
                         else
                         {
@@ -1058,7 +1095,7 @@ namespace OnlinePayTools
                 }
                 if (1 != batchDKparams.Count)
                 {
-                    MessageBox.Show("代扣完成，共"+ batchDKparams.Count+"笔,成功："+successRecord.Count+"笔，进行中："+processingRecord.Count+"笔，失败或异常："+errorRecord.Count+"笔。");
+                    MessageBox.Show("代扣完成，共" + batchDKparams.Count + "笔，成功：" + successRecord.Count + "笔，进行中：" + processingRecord.Count + "笔，失败或异常：" + errorRecord.Count + "笔。");
                 }
             }
             catch (Exception ex)
@@ -1068,6 +1105,98 @@ namespace OnlinePayTools
             }
         }
 
+        /// <summary>
+        /// 杉德查询补单
+        /// </summary>
+        /// <param name="orderId"></param>
+        /// <param name="mchId"></param>
+        /// <param name="mchName"></param>
+        /// <param name="pfxPath"></param>
+        /// <param name="pfxPwd"></param>
+        /// <param name="cerPath"></param>
+        /// <param name="payType"></param>
+        private void doSandQuery(string orderId, string mchId,string tranTime, string mchName, string pfxPath, string pfxPwd, string cerPath, string payType, string orderType)
+        {
+            Settings cfg = Settings.Default;
+            DbUtility dbUtil = new DbUtility(cfg.localConnectionString, DbProviderType.OleDb);
+            Dictionary<string, string> dic = new Dictionary<string, string>();
+
+            dic.Add("version", "01");
+            if (payType == "0" && orderType=="dk")
+            {
+                dic.Add("productId", "00000002");// 代收对公    00000001 代收对私    00000002  代付对私    00000004 
+            }
+            else if (payType == "1" && orderType=="dk")
+            {
+                dic.Add("productId", "00000001");// 代收对公    00000001 代收对私    00000002  代付对私    00000004 
+            }
+            else if(payType == "0" && orderType=="df")
+            {
+                dic.Add("productId", "00000004");
+            }
+            else if (payType == "1" && orderType == "df")
+            {
+                dic.Add("productId", "00000003");
+            }
+            //DateTime tranDt = DateTime.ParseExact(dic["tranTime"], "yyyyMMddHHmmss", System.Globalization.CultureInfo.CurrentCulture);
+           
+            DateTime datetime;
+            if(!DateTime.TryParse(tranTime,out datetime)){
+                log.Write(orderId + "--时间格式错误，查询失败");
+                return;
+            }
+            dic.Add("tranTime", datetime.ToString("yyyyMMddHHmmss"));
+            dic.Add("orderCode", orderId);
+            JavaScriptSerializer jsonSer = new JavaScriptSerializer();
+
+            Dictionary<string, string> dicRslt;
+            //解密后的服务器返回
+            MessageCryptWorker.trafficMessage resp = QueryOrderMessage(dic, pfxPath, pfxPwd, cerPath, mchId);
+            //检查验签结果
+            log.Write("验签结果" + resp.sign);
+            //解析报文，读取业务报文体内具体字段的值
+            log.Write(resp.encryptData, MsgType.Information);
+            dicRslt = jsonSer.Deserialize<Dictionary<string, string>>(resp.encryptData);
+            //dicRslt = (Dictionary<string, string>)JsonUtil.JsonToObject(resp.encryptData, dicRslt);
+            string orderCode = dicRslt.ContainsKey("orderCode") ? dicRslt["orderCode"] : "";
+            string respCode = dicRslt.ContainsKey("respCode") ? dicRslt["respCode"] : "";
+            string respDesc = dicRslt.ContainsKey("respDesc") ? dicRslt["respDesc"] : "";
+            string sandSerial = dicRslt.ContainsKey("sandSerial") ? dicRslt["sandSerial"] : "";
+            string resultFlag = dicRslt.ContainsKey("resultFlag") ? dicRslt["resultFlag"] : "";
+            log.Write("respCode[" + respCode + "]" + "respDesc[" + respDesc + "]");
+            string status = "0";
+
+            if ("0000".Equals(respCode))
+            {
+                if ("0".Equals(resultFlag))
+                {
+                    status = "1";
+                }
+                else if ("1".Equals(resultFlag))
+                {
+                    status = "2";
+                }
+            }
+            try
+            {
+                string strUpdateSql = "update CollectionOrder set "
+                       + " status = " + status
+                       + ", updateTime='" + DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss") + "'"
+                       + ", bankOrderNo='" + sandSerial + "'"
+                       + ",respCode='" + respCode + "'"
+                       + ",respMsg='" + respDesc + "'"
+                       + " where orderId='" + orderCode + "'";
+                cfg = Settings.Default;
+                dbUtil = new DbUtility(cfg.localConnectionString, DbProviderType.OleDb);
+                int effectNo = dbUtil.ExecuteNonQuery(strUpdateSql, null);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+                log.Write(ex, MsgType.Error);
+                return;
+            }
+        }
         /// <summary>
         ///代扣提交
         /// </summary>
@@ -1111,8 +1240,8 @@ namespace OnlinePayTools
             worker.PFXFile = pfxPath; //商户pfx证书路径
             worker.PFXPassword = pfxPwd;  //商户pfx证书密码
             worker.CerFile = cerPath; //杉德cer证书路径
-            string ServerUrl = "http://61.129.71.103:7970/agent-main/openapi/collection";
-            //string ServerUrl = "https://caspay.sandpay.com.cn/agent-main/openapi/collection";
+            //string ServerUrl = "http://61.129.71.103:7970/agent-main/openapi/collection";
+            string ServerUrl = "https://caspay.sandpay.com.cn/agent-main/openapi/collection";
             msgRequestSource.merId = mchId; //商户号
             msgRequestSource.transCode = "RTCO";        //交易代码
             msgRequestSource.extend = "";               //扩展域
@@ -1166,8 +1295,8 @@ namespace OnlinePayTools
             //encrytpKey会在发送前加密时自动生成16位的随机字符
 
             log.Write("待发送报文为：" + msgRequestSource.encryptData);
-            string ServerUrl = "http://61.129.71.103:7970/agent-main/openapi/queryOrder";
-            //string ServerUrl = "https://caspay.sandpay.com.cn/agent-main/openapi/queryOrder";
+            //string ServerUrl = "http://61.129.71.103:7970/agent-main/openapi/queryOrder";
+            string ServerUrl = "https://caspay.sandpay.com.cn/agent-main/openapi/queryOrder";
 
             MessageCryptWorker.trafficMessage respMessage = worker.postMessage(ServerUrl, msgRequestSource);
 
@@ -1228,8 +1357,8 @@ namespace OnlinePayTools
 
 
             log.Write("待发送报文为：" + msgRequestSource.encryptData);
-            string ServerUrl = "http://61.129.71.103:7970/agent-main/openapi/agentpay";
-            //string ServerUrl = "https://caspay.sandpay.com.cn/agent-main/openapi/agentpay";
+            //string ServerUrl = "http://61.129.71.103:7970/agent-main/openapi/agentpay";
+            string ServerUrl = "https://caspay.sandpay.com.cn/agent-main/openapi/agentpay";
 
             MessageCryptWorker.trafficMessage respMessage = worker.postMessage(ServerUrl, msgRequestSource);
             log.Write("服务器返回为：" + respMessage.encryptData);
@@ -1237,7 +1366,6 @@ namespace OnlinePayTools
             return respMessage;
         }
         #endregion
-
 
     }
 }
