@@ -4,47 +4,55 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Text;
 
-namespace SandLibrary
+namespace SdjLibrary
 {
-    public class SandDKRequestParamList : BaseRequestParamList
+    public class SdjDKRequestParamList : BaseRequestParamList
     {
-
         /// <summary>
-        /// 定义Key为string类型，Value为object类型的一个Dictionary,key用|分隔，分别表示英文|中文|类型
+        /// 定义Key为string类型，Value为object类型的一个Dictionary,key用|分隔，分别表示英文|中文|类型|是否显示
         /// </summary>
         /// <returns></returns>
         public override Dictionary<string, object> SetKeyValue()
         {
             Dictionary<string, object> ParamDiclist = new Dictionary<string, object>();
-            ParamDiclist.Add("version|版本号|s|N","01");
-            //ParamDiclist.Add("productId|产品ID|s|N", "00000002");
-            ParamDiclist.Add("tranTime|交易时间|s|Y", DateTime.Now.ToString("yyyyMMddHHmmss"));
-            ParamDiclist.Add("orderCode|订单号|s|Y", "dk" + DateTime.Now.ToString("yyyyMMddHHmmss") + GetRandomString());
-            ParamDiclist.Add("tranAmt|金额（必填）|s|Y", "");
-            ParamDiclist.Add("currencyCode|币种|s|N","156");
-            ParamDiclist.Add("accAttr|账户属性|listDic|Y", accAttrDicList);
-            ParamDiclist.Add("accType|账号类型|listDic|Y", accTypeDicList);
-            ParamDiclist.Add("accNo|扣款账户号|s|Y", "");
-            ParamDiclist.Add("accName|账户名|s|Y", "");
-            ParamDiclist.Add("bankName|账户开户行名称|s|N", "");
-            ParamDiclist.Add("provNo|开户省份编码|s|N", "010000");
-            ParamDiclist.Add("cityNo|开户城市编码|s|N", "");
-            ParamDiclist.Add("certType|开户证件类型|listDic|Y", certTypIndivDicList);
-            ParamDiclist.Add("certNo|开户证件号码|s|Y", "");
-            ParamDiclist.Add("cardId|身份证号|s|Y", "");
-            ParamDiclist.Add("phone|银行预留手机号|s|Y", "");
-            ParamDiclist.Add("bankInsCode|银联机构号|s|N", "");
-            ParamDiclist.Add("purpose|用途说明|s|N", "collection");
-            ParamDiclist.Add("reqReserved|请求方保留域|s|N", "");
-            ParamDiclist.Add("extend|扩展域|s|N", "");
+            ParamDiclist.Add("serviceType|业务类型|s|Y", "agentPay");
+            //ParamDiclist.Add("payeeId|商家号|s|Y", "");
+            ParamDiclist.Add("inputCharset|参数编码字符集|s|Y", "UTF-8");
+            ParamDiclist.Add("notifyUrl|服务器异步通知地址|s|Y", "http://localhost/resp.htm");
+            ParamDiclist.Add("clientIp|客户端IP|s|Y", "");
+            ParamDiclist.Add("interfaceVersion|接口版本|s|Y", "V1.0");
+            ParamDiclist.Add("signType|签名方式|s|Y", "MD5");
+            ParamDiclist.Add("sign|签名|s|Y", "");
+            ParamDiclist.Add("signature|加密数据|s|N", "");
+            ParamDiclist.Add("orderNo|商户网站唯一订单号|s|Y", "dk" + DateTime.Now.ToString("yyyyMMddHHmmss") + GetRandomString());
+            ParamDiclist.Add("orderTime|商户订单时间|s|Y", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
+            ParamDiclist.Add("payAmount|商户订单总金额|s|Y", "100");
+            ParamDiclist.Add("platformCode|商户平台编号|s|Y", "newp2p");
+            ParamDiclist.Add("bankCode|银行代码|s|Y", "");
+            ParamDiclist.Add("payerAcc|银行卡号|s|Y", "6228480129910796262");
+            ParamDiclist.Add("payerName|姓名|s|Y", "张三");
+            ParamDiclist.Add("provNo|行政区域编码|s|Y", "");
+            ParamDiclist.Add("certNo|身份证|s|Y", "430527198605174227");
+            ParamDiclist.Add("productName|商品名称|s|Y", "");
+            ParamDiclist.Add("showUrl|商品展示URL|s|Y", "");
+            ParamDiclist.Add("productCode|商品编号|s|Y", "");
+            ParamDiclist.Add("productNum|商品数量|s|Y", "");
+            ParamDiclist.Add("productDesc|商品描述|s|Y", "");
+            ParamDiclist.Add("extendParam|公用业务扩展参数|s|Y", "");//参数格式：参数名1^参数值|参数名2^参数值2，多条数据间用"|"间隔
+            /*extendParam|公用业务扩展参数
+            参数	       参数名称 	    类型（长度）	使用	说明
+            收货人信息	   			        
+            shipToName	   收货人姓名	    String(50)	    可选	
+            shipToEmail	   收货人邮箱	    String(60)	    可选	
+            shipToPhone	   收货人电话	    String(30)	    可选	
+            shipToState	   收货地址省	    String	        可选	
+            shipToCity	   收货地址城市	    String	        可选	
+            shipToStreet   收货人详细地址	String	        可选	
+            shipToZip	   收货地址邮编	    String	        可选	
+            */                                            
+
             return ParamDiclist;
         }
-
-        public override string resetReqNoAndReqTime()
-        {
-            return "1|T|2|O";
-        }
-
         ///// <summary>
         ///// 得到根据指定的Key行到Value
         ///// </summary>

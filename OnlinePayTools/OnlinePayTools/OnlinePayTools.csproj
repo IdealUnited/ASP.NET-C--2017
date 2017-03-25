@@ -144,6 +144,10 @@
       <Project>{457aa034-90f8-4d61-b7ed-589ba6c52144}</Project>
       <Name>SandLibrary</Name>
     </ProjectReference>
+    <ProjectReference Include="..\SdjLibrary\SdjLibrary.csproj">
+      <Project>{c41cca1c-cde6-4dfd-87ec-712a3931ad54}</Project>
+      <Name>SdjLibrary</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

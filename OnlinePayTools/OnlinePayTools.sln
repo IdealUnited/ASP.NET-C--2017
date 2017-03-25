@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebLibrary", "HttpLibrary\W
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ComLibrary", "ComLibrary\ComLibrary.csproj", "{22DCFCA4-6E23-4BA7-8F24-86B538100206}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SdjLibrary", "SdjLibrary\SdjLibrary.csproj", "{C41CCA1C-CDE6-4DFD-87EC-712A3931AD54}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -83,6 +85,16 @@ Global
 		{22DCFCA4-6E23-4BA7-8F24-86B538100206}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{22DCFCA4-6E23-4BA7-8F24-86B538100206}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{22DCFCA4-6E23-4BA7-8F24-86B538100206}.Release|x86.ActiveCfg = Release|Any CPU
+		{C41CCA1C-CDE6-4DFD-87EC-712A3931AD54}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C41CCA1C-CDE6-4DFD-87EC-712A3931AD54}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C41CCA1C-CDE6-4DFD-87EC-712A3931AD54}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{C41CCA1C-CDE6-4DFD-87EC-712A3931AD54}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{C41CCA1C-CDE6-4DFD-87EC-712A3931AD54}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{C41CCA1C-CDE6-4DFD-87EC-712A3931AD54}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C41CCA1C-CDE6-4DFD-87EC-712A3931AD54}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C41CCA1C-CDE6-4DFD-87EC-712A3931AD54}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{C41CCA1C-CDE6-4DFD-87EC-712A3931AD54}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{C41CCA1C-CDE6-4DFD-87EC-712A3931AD54}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

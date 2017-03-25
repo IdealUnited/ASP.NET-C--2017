@@ -29,11 +29,11 @@
         private void InitializeComponent()
         {
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainFrm));
             this.printDocument1 = new System.Drawing.Printing.PrintDocument();
             this.tabControl2 = new System.Windows.Forms.TabControl();
@@ -42,10 +42,17 @@
             this.tpSingle = new System.Windows.Forms.TabPage();
             this.panel7 = new System.Windows.Forms.Panel();
             this.dgvRequestParam = new System.Windows.Forms.DataGridView();
+            this.DK_NAME = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.DK_VALUE = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.panel6 = new System.Windows.Forms.Panel();
             this.btnRefresh = new System.Windows.Forms.Button();
             this.btnSingleSubmit = new System.Windows.Forms.Button();
             this.tpBatch = new System.Windows.Forms.TabPage();
+            this.panel8 = new System.Windows.Forms.Panel();
+            this.btnBatchSubmit = new System.Windows.Forms.Button();
+            this.btnSelectFile = new System.Windows.Forms.Button();
+            this.txtBatchFile = new System.Windows.Forms.TextBox();
+            this.label9 = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.cmbMerchant = new System.Windows.Forms.ComboBox();
             this.label7 = new System.Windows.Forms.Label();
@@ -56,10 +63,17 @@
             this.tpSinglePay = new System.Windows.Forms.TabPage();
             this.panel4 = new System.Windows.Forms.Panel();
             this.dgvPayRequest = new System.Windows.Forms.DataGridView();
+            this.DF_NAME = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.DF_VALUE = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.panel5 = new System.Windows.Forms.Panel();
             this.btnRefreshPay = new System.Windows.Forms.Button();
             this.btnPaySubmit = new System.Windows.Forms.Button();
             this.tpBatchPay = new System.Windows.Forms.TabPage();
+            this.panel9 = new System.Windows.Forms.Panel();
+            this.btnBatchPaySubmit = new System.Windows.Forms.Button();
+            this.btnSelectPayFile = new System.Windows.Forms.Button();
+            this.txbBatchPayFile = new System.Windows.Forms.TextBox();
+            this.label10 = new System.Windows.Forms.Label();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.cmbPay = new System.Windows.Forms.ComboBox();
             this.label8 = new System.Windows.Forms.Label();
@@ -70,44 +84,33 @@
             this.panel1 = new System.Windows.Forms.Panel();
             this.btnQuery = new System.Windows.Forms.Button();
             this.tabPage5 = new System.Windows.Forms.TabPage();
+            this.panel2 = new System.Windows.Forms.Panel();
+            this.tabControl1 = new System.Windows.Forms.TabControl();
+            this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.panel10 = new System.Windows.Forms.Panel();
+            this.label12 = new System.Windows.Forms.Label();
+            this.label11 = new System.Windows.Forms.Label();
+            this.txbOrgKey = new System.Windows.Forms.TextBox();
+            this.txbMchName = new System.Windows.Forms.TextBox();
+            this.txbMchID = new System.Windows.Forms.TextBox();
+            this.txtPFXPath = new System.Windows.Forms.TextBox();
+            this.btnCERSelect = new System.Windows.Forms.Button();
+            this.label5 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
+            this.btnPFXSelect = new System.Windows.Forms.Button();
+            this.txtPFXPwd = new System.Windows.Forms.TextBox();
+            this.label4 = new System.Windows.Forms.Label();
+            this.btnSave = new System.Windows.Forms.Button();
+            this.txtCERPath = new System.Windows.Forms.TextBox();
+            this.label6 = new System.Windows.Forms.Label();
+            this.tabPage6 = new System.Windows.Forms.TabPage();
+            this.dgvChannelInfo = new System.Windows.Forms.DataGridView();
+            this.panel11 = new System.Windows.Forms.Panel();
+            this.btnQueryChannel = new System.Windows.Forms.Button();
             this.panel3 = new System.Windows.Forms.Panel();
             this.cmbSYS = new System.Windows.Forms.ComboBox();
             this.label1 = new System.Windows.Forms.Label();
-            this.panel2 = new System.Windows.Forms.Panel();
-            this.btnCERSelect = new System.Windows.Forms.Button();
-            this.btnPFXSelect = new System.Windows.Forms.Button();
-            this.txtCERPath = new System.Windows.Forms.TextBox();
-            this.label6 = new System.Windows.Forms.Label();
-            this.txtPFXPwd = new System.Windows.Forms.TextBox();
-            this.label5 = new System.Windows.Forms.Label();
-            this.txtPFXPath = new System.Windows.Forms.TextBox();
-            this.label3 = new System.Windows.Forms.Label();
-            this.btnSave = new System.Windows.Forms.Button();
-            this.txbMchName = new System.Windows.Forms.TextBox();
-            this.label4 = new System.Windows.Forms.Label();
-            this.txbMchID = new System.Windows.Forms.TextBox();
-            this.label2 = new System.Windows.Forms.Label();
-            this.panel8 = new System.Windows.Forms.Panel();
-            this.btnBatchSubmit = new System.Windows.Forms.Button();
-            this.btnSelectFile = new System.Windows.Forms.Button();
-            this.txtBatchFile = new System.Windows.Forms.TextBox();
-            this.label9 = new System.Windows.Forms.Label();
-            this.panel9 = new System.Windows.Forms.Panel();
-            this.btnBatchPaySubmit = new System.Windows.Forms.Button();
-            this.btnSelectPayFile = new System.Windows.Forms.Button();
-            this.txbBatchPayFile = new System.Windows.Forms.TextBox();
-            this.label10 = new System.Windows.Forms.Label();
-            this.tabControl1 = new System.Windows.Forms.TabControl();
-            this.tabPage1 = new System.Windows.Forms.TabPage();
-            this.tabPage6 = new System.Windows.Forms.TabPage();
-            this.panel10 = new System.Windows.Forms.Panel();
-            this.panel11 = new System.Windows.Forms.Panel();
-            this.dgvChannelInfo = new System.Windows.Forms.DataGridView();
-            this.btnQueryChannel = new System.Windows.Forms.Button();
-            this.DF_NAME = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.DF_VALUE = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.DK_NAME = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.DK_VALUE = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tabControl2.SuspendLayout();
             this.tabPage3.SuspendLayout();
             this.tcDK.SuspendLayout();
@@ -116,6 +119,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.dgvRequestParam)).BeginInit();
             this.panel6.SuspendLayout();
             this.tpBatch.SuspendLayout();
+            this.panel8.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.tabPage2.SuspendLayout();
             this.tcDF.SuspendLayout();
@@ -124,21 +128,20 @@
             ((System.ComponentModel.ISupportInitialize)(this.dgvPayRequest)).BeginInit();
             this.panel5.SuspendLayout();
             this.tpBatchPay.SuspendLayout();
+            this.panel9.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.tabPage4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgv_sd)).BeginInit();
             this.panel1.SuspendLayout();
             this.tabPage5.SuspendLayout();
-            this.panel3.SuspendLayout();
             this.panel2.SuspendLayout();
-            this.panel8.SuspendLayout();
-            this.panel9.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
-            this.tabPage6.SuspendLayout();
             this.panel10.SuspendLayout();
-            this.panel11.SuspendLayout();
+            this.tabPage6.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvChannelInfo)).BeginInit();
+            this.panel11.SuspendLayout();
+            this.panel3.SuspendLayout();
             this.SuspendLayout();
             // 
             // tabControl2
@@ -222,6 +225,26 @@
             this.dgvRequestParam.Size = new System.Drawing.Size(825, 330);
             this.dgvRequestParam.TabIndex = 0;
             // 
+            // DK_NAME
+            // 
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.NullValue = null;
+            this.DK_NAME.DefaultCellStyle = dataGridViewCellStyle2;
+            this.DK_NAME.FillWeight = 40F;
+            this.DK_NAME.HeaderText = "请求参数名";
+            this.DK_NAME.Name = "DK_NAME";
+            this.DK_NAME.ReadOnly = true;
+            this.DK_NAME.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.DK_NAME.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            // 
+            // DK_VALUE
+            // 
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            this.DK_VALUE.DefaultCellStyle = dataGridViewCellStyle3;
+            this.DK_VALUE.FillWeight = 60F;
+            this.DK_VALUE.HeaderText = "请求参数值";
+            this.DK_VALUE.Name = "DK_VALUE";
+            // 
             // panel6
             // 
             this.panel6.Controls.Add(this.btnRefresh);
@@ -264,6 +287,58 @@
             this.tpBatch.TabIndex = 1;
             this.tpBatch.Text = "批量代扣";
             this.tpBatch.UseVisualStyleBackColor = true;
+            // 
+            // panel8
+            // 
+            this.panel8.Controls.Add(this.btnBatchSubmit);
+            this.panel8.Controls.Add(this.btnSelectFile);
+            this.panel8.Controls.Add(this.txtBatchFile);
+            this.panel8.Controls.Add(this.label9);
+            this.panel8.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panel8.Location = new System.Drawing.Point(3, 3);
+            this.panel8.Name = "panel8";
+            this.panel8.Size = new System.Drawing.Size(825, 375);
+            this.panel8.TabIndex = 0;
+            // 
+            // btnBatchSubmit
+            // 
+            this.btnBatchSubmit.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.btnBatchSubmit.Location = new System.Drawing.Point(385, 226);
+            this.btnBatchSubmit.Name = "btnBatchSubmit";
+            this.btnBatchSubmit.Size = new System.Drawing.Size(75, 23);
+            this.btnBatchSubmit.TabIndex = 7;
+            this.btnBatchSubmit.Text = "确认提交";
+            this.btnBatchSubmit.UseVisualStyleBackColor = true;
+            this.btnBatchSubmit.Click += new System.EventHandler(this.btnBatchSubmit_Click);
+            // 
+            // btnSelectFile
+            // 
+            this.btnSelectFile.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.btnSelectFile.Location = new System.Drawing.Point(676, 125);
+            this.btnSelectFile.Name = "btnSelectFile";
+            this.btnSelectFile.Size = new System.Drawing.Size(75, 23);
+            this.btnSelectFile.TabIndex = 6;
+            this.btnSelectFile.Text = "浏览";
+            this.btnSelectFile.UseVisualStyleBackColor = true;
+            this.btnSelectFile.Click += new System.EventHandler(this.btnSelectFile_Click);
+            // 
+            // txtBatchFile
+            // 
+            this.txtBatchFile.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.txtBatchFile.Location = new System.Drawing.Point(168, 127);
+            this.txtBatchFile.Name = "txtBatchFile";
+            this.txtBatchFile.Size = new System.Drawing.Size(502, 21);
+            this.txtBatchFile.TabIndex = 5;
+            // 
+            // label9
+            // 
+            this.label9.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.label9.AutoSize = true;
+            this.label9.Location = new System.Drawing.Point(73, 130);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(89, 12);
+            this.label9.TabIndex = 4;
+            this.label9.Text = "选择代扣文件：";
             // 
             // groupBox1
             // 
@@ -391,6 +466,26 @@
             this.dgvPayRequest.Size = new System.Drawing.Size(825, 330);
             this.dgvPayRequest.TabIndex = 0;
             // 
+            // DF_NAME
+            // 
+            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle5.NullValue = null;
+            this.DF_NAME.DefaultCellStyle = dataGridViewCellStyle5;
+            this.DF_NAME.FillWeight = 40F;
+            this.DF_NAME.HeaderText = "请求参数名";
+            this.DF_NAME.Name = "DF_NAME";
+            this.DF_NAME.ReadOnly = true;
+            this.DF_NAME.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.DF_NAME.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            // 
+            // DF_VALUE
+            // 
+            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            this.DF_VALUE.DefaultCellStyle = dataGridViewCellStyle6;
+            this.DF_VALUE.FillWeight = 60F;
+            this.DF_VALUE.HeaderText = "请求参数值";
+            this.DF_VALUE.Name = "DF_VALUE";
+            // 
             // panel5
             // 
             this.panel5.Controls.Add(this.btnRefreshPay);
@@ -433,6 +528,58 @@
             this.tpBatchPay.TabIndex = 1;
             this.tpBatchPay.Text = "批量代付";
             this.tpBatchPay.UseVisualStyleBackColor = true;
+            // 
+            // panel9
+            // 
+            this.panel9.Controls.Add(this.btnBatchPaySubmit);
+            this.panel9.Controls.Add(this.btnSelectPayFile);
+            this.panel9.Controls.Add(this.txbBatchPayFile);
+            this.panel9.Controls.Add(this.label10);
+            this.panel9.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panel9.Location = new System.Drawing.Point(3, 3);
+            this.panel9.Name = "panel9";
+            this.panel9.Size = new System.Drawing.Size(825, 375);
+            this.panel9.TabIndex = 0;
+            // 
+            // btnBatchPaySubmit
+            // 
+            this.btnBatchPaySubmit.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.btnBatchPaySubmit.Location = new System.Drawing.Point(385, 226);
+            this.btnBatchPaySubmit.Name = "btnBatchPaySubmit";
+            this.btnBatchPaySubmit.Size = new System.Drawing.Size(75, 23);
+            this.btnBatchPaySubmit.TabIndex = 7;
+            this.btnBatchPaySubmit.Text = "确认提交";
+            this.btnBatchPaySubmit.UseVisualStyleBackColor = true;
+            this.btnBatchPaySubmit.Click += new System.EventHandler(this.btnBatchPaySubmit_Click);
+            // 
+            // btnSelectPayFile
+            // 
+            this.btnSelectPayFile.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.btnSelectPayFile.Location = new System.Drawing.Point(676, 125);
+            this.btnSelectPayFile.Name = "btnSelectPayFile";
+            this.btnSelectPayFile.Size = new System.Drawing.Size(75, 23);
+            this.btnSelectPayFile.TabIndex = 6;
+            this.btnSelectPayFile.Text = "浏览";
+            this.btnSelectPayFile.UseVisualStyleBackColor = true;
+            this.btnSelectPayFile.Click += new System.EventHandler(this.btnSelectPayFile_Click);
+            // 
+            // txbBatchPayFile
+            // 
+            this.txbBatchPayFile.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.txbBatchPayFile.Location = new System.Drawing.Point(168, 127);
+            this.txbBatchPayFile.Name = "txbBatchPayFile";
+            this.txbBatchPayFile.Size = new System.Drawing.Size(502, 21);
+            this.txbBatchPayFile.TabIndex = 5;
+            // 
+            // label10
+            // 
+            this.label10.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.label10.AutoSize = true;
+            this.label10.Location = new System.Drawing.Point(73, 130);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(89, 12);
+            this.label10.TabIndex = 4;
+            this.label10.Text = "选择代付文件：";
             // 
             // groupBox2
             // 
@@ -546,6 +693,255 @@
             this.tabPage5.Text = "设置";
             this.tabPage5.UseVisualStyleBackColor = true;
             // 
+            // panel2
+            // 
+            this.panel2.Controls.Add(this.tabControl1);
+            this.panel2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panel2.Location = new System.Drawing.Point(3, 62);
+            this.panel2.Name = "panel2";
+            this.panel2.Size = new System.Drawing.Size(839, 457);
+            this.panel2.TabIndex = 2;
+            // 
+            // tabControl1
+            // 
+            this.tabControl1.Controls.Add(this.tabPage1);
+            this.tabControl1.Controls.Add(this.tabPage6);
+            this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tabControl1.Location = new System.Drawing.Point(0, 0);
+            this.tabControl1.Name = "tabControl1";
+            this.tabControl1.SelectedIndex = 0;
+            this.tabControl1.Size = new System.Drawing.Size(839, 457);
+            this.tabControl1.TabIndex = 15;
+            // 
+            // tabPage1
+            // 
+            this.tabPage1.Controls.Add(this.panel10);
+            this.tabPage1.Location = new System.Drawing.Point(4, 22);
+            this.tabPage1.Name = "tabPage1";
+            this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage1.Size = new System.Drawing.Size(831, 431);
+            this.tabPage1.TabIndex = 0;
+            this.tabPage1.Text = "商户参数设置";
+            this.tabPage1.UseVisualStyleBackColor = true;
+            // 
+            // panel10
+            // 
+            this.panel10.Controls.Add(this.label12);
+            this.panel10.Controls.Add(this.label11);
+            this.panel10.Controls.Add(this.txbOrgKey);
+            this.panel10.Controls.Add(this.txbMchName);
+            this.panel10.Controls.Add(this.txbMchID);
+            this.panel10.Controls.Add(this.txtPFXPath);
+            this.panel10.Controls.Add(this.btnCERSelect);
+            this.panel10.Controls.Add(this.label5);
+            this.panel10.Controls.Add(this.label2);
+            this.panel10.Controls.Add(this.label3);
+            this.panel10.Controls.Add(this.btnPFXSelect);
+            this.panel10.Controls.Add(this.txtPFXPwd);
+            this.panel10.Controls.Add(this.label4);
+            this.panel10.Controls.Add(this.btnSave);
+            this.panel10.Controls.Add(this.txtCERPath);
+            this.panel10.Controls.Add(this.label6);
+            this.panel10.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panel10.Location = new System.Drawing.Point(3, 3);
+            this.panel10.Name = "panel10";
+            this.panel10.Size = new System.Drawing.Size(825, 425);
+            this.panel10.TabIndex = 15;
+            // 
+            // label12
+            // 
+            this.label12.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.label12.AutoSize = true;
+            this.label12.Location = new System.Drawing.Point(596, 310);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(179, 12);
+            this.label12.TabIndex = 17;
+            this.label12.Text = "（eg: md5秘钥，sha256秘钥等）";
+            // 
+            // label11
+            // 
+            this.label11.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.label11.AutoSize = true;
+            this.label11.Location = new System.Drawing.Point(197, 310);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(65, 12);
+            this.label11.TabIndex = 15;
+            this.label11.Text = "商户秘钥：";
+            // 
+            // txbOrgKey
+            // 
+            this.txbOrgKey.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.txbOrgKey.Location = new System.Drawing.Point(265, 307);
+            this.txbOrgKey.Name = "txbOrgKey";
+            this.txbOrgKey.PasswordChar = '*';
+            this.txbOrgKey.Size = new System.Drawing.Size(325, 21);
+            this.txbOrgKey.TabIndex = 16;
+            // 
+            // txbMchName
+            // 
+            this.txbMchName.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.txbMchName.Location = new System.Drawing.Point(263, 89);
+            this.txbMchName.Name = "txbMchName";
+            this.txbMchName.Size = new System.Drawing.Size(325, 21);
+            this.txbMchName.TabIndex = 4;
+            // 
+            // txbMchID
+            // 
+            this.txbMchID.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.txbMchID.Location = new System.Drawing.Point(263, 34);
+            this.txbMchID.Name = "txbMchID";
+            this.txbMchID.Size = new System.Drawing.Size(325, 21);
+            this.txbMchID.TabIndex = 2;
+            // 
+            // txtPFXPath
+            // 
+            this.txtPFXPath.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.txtPFXPath.Location = new System.Drawing.Point(263, 144);
+            this.txtPFXPath.Name = "txtPFXPath";
+            this.txtPFXPath.Size = new System.Drawing.Size(325, 21);
+            this.txtPFXPath.TabIndex = 8;
+            // 
+            // btnCERSelect
+            // 
+            this.btnCERSelect.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.btnCERSelect.Location = new System.Drawing.Point(596, 254);
+            this.btnCERSelect.Name = "btnCERSelect";
+            this.btnCERSelect.Size = new System.Drawing.Size(55, 21);
+            this.btnCERSelect.TabIndex = 14;
+            this.btnCERSelect.Text = "···";
+            this.btnCERSelect.UseVisualStyleBackColor = true;
+            this.btnCERSelect.Click += new System.EventHandler(this.btnCERSelect_Click);
+            // 
+            // label5
+            // 
+            this.label5.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(197, 202);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(65, 12);
+            this.label5.TabIndex = 9;
+            this.label5.Text = "证书密码：";
+            // 
+            // label2
+            // 
+            this.label2.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(209, 37);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(53, 12);
+            this.label2.TabIndex = 1;
+            this.label2.Text = "商户号：";
+            // 
+            // label3
+            // 
+            this.label3.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(197, 147);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(65, 12);
+            this.label3.TabIndex = 7;
+            this.label3.Text = "私钥证书：";
+            // 
+            // btnPFXSelect
+            // 
+            this.btnPFXSelect.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.btnPFXSelect.Location = new System.Drawing.Point(596, 144);
+            this.btnPFXSelect.Name = "btnPFXSelect";
+            this.btnPFXSelect.Size = new System.Drawing.Size(55, 21);
+            this.btnPFXSelect.TabIndex = 13;
+            this.btnPFXSelect.Text = "···";
+            this.btnPFXSelect.UseVisualStyleBackColor = true;
+            this.btnPFXSelect.Click += new System.EventHandler(this.btnPFXSelect_Click);
+            // 
+            // txtPFXPwd
+            // 
+            this.txtPFXPwd.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.txtPFXPwd.Location = new System.Drawing.Point(265, 199);
+            this.txtPFXPwd.Name = "txtPFXPwd";
+            this.txtPFXPwd.PasswordChar = '*';
+            this.txtPFXPwd.Size = new System.Drawing.Size(325, 21);
+            this.txtPFXPwd.TabIndex = 10;
+            // 
+            // label4
+            // 
+            this.label4.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(197, 92);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(65, 12);
+            this.label4.TabIndex = 3;
+            this.label4.Text = "商户名称：";
+            // 
+            // btnSave
+            // 
+            this.btnSave.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.btnSave.Location = new System.Drawing.Point(395, 365);
+            this.btnSave.Name = "btnSave";
+            this.btnSave.Size = new System.Drawing.Size(75, 23);
+            this.btnSave.TabIndex = 6;
+            this.btnSave.Text = "保存";
+            this.btnSave.UseVisualStyleBackColor = true;
+            this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
+            // 
+            // txtCERPath
+            // 
+            this.txtCERPath.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.txtCERPath.Location = new System.Drawing.Point(265, 254);
+            this.txtCERPath.Name = "txtCERPath";
+            this.txtCERPath.Size = new System.Drawing.Size(325, 21);
+            this.txtCERPath.TabIndex = 12;
+            // 
+            // label6
+            // 
+            this.label6.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(197, 257);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(65, 12);
+            this.label6.TabIndex = 11;
+            this.label6.Text = "公钥证书：";
+            // 
+            // tabPage6
+            // 
+            this.tabPage6.Controls.Add(this.dgvChannelInfo);
+            this.tabPage6.Controls.Add(this.panel11);
+            this.tabPage6.Location = new System.Drawing.Point(4, 22);
+            this.tabPage6.Name = "tabPage6";
+            this.tabPage6.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage6.Size = new System.Drawing.Size(831, 431);
+            this.tabPage6.TabIndex = 1;
+            this.tabPage6.Text = "商户信息查询";
+            this.tabPage6.UseVisualStyleBackColor = true;
+            // 
+            // dgvChannelInfo
+            // 
+            this.dgvChannelInfo.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvChannelInfo.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dgvChannelInfo.Location = new System.Drawing.Point(3, 53);
+            this.dgvChannelInfo.Name = "dgvChannelInfo";
+            this.dgvChannelInfo.RowTemplate.Height = 23;
+            this.dgvChannelInfo.Size = new System.Drawing.Size(825, 375);
+            this.dgvChannelInfo.TabIndex = 1;
+            // 
+            // panel11
+            // 
+            this.panel11.Controls.Add(this.btnQueryChannel);
+            this.panel11.Dock = System.Windows.Forms.DockStyle.Top;
+            this.panel11.Location = new System.Drawing.Point(3, 3);
+            this.panel11.Name = "panel11";
+            this.panel11.Size = new System.Drawing.Size(825, 50);
+            this.panel11.TabIndex = 0;
+            // 
+            // btnQueryChannel
+            // 
+            this.btnQueryChannel.Location = new System.Drawing.Point(24, 12);
+            this.btnQueryChannel.Name = "btnQueryChannel";
+            this.btnQueryChannel.Size = new System.Drawing.Size(75, 23);
+            this.btnQueryChannel.TabIndex = 2;
+            this.btnQueryChannel.Text = "查询";
+            this.btnQueryChannel.UseVisualStyleBackColor = true;
+            this.btnQueryChannel.Click += new System.EventHandler(this.btnQueryChannel_Click);
+            // 
             // panel3
             // 
             this.panel3.Controls.Add(this.cmbSYS);
@@ -576,367 +972,6 @@
             this.label1.TabIndex = 0;
             this.label1.Text = "三方平台：";
             // 
-            // panel2
-            // 
-            this.panel2.Controls.Add(this.tabControl1);
-            this.panel2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel2.Location = new System.Drawing.Point(3, 62);
-            this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(839, 457);
-            this.panel2.TabIndex = 2;
-            // 
-            // btnCERSelect
-            // 
-            this.btnCERSelect.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.btnCERSelect.Location = new System.Drawing.Point(596, 296);
-            this.btnCERSelect.Name = "btnCERSelect";
-            this.btnCERSelect.Size = new System.Drawing.Size(55, 21);
-            this.btnCERSelect.TabIndex = 14;
-            this.btnCERSelect.Text = "···";
-            this.btnCERSelect.UseVisualStyleBackColor = true;
-            this.btnCERSelect.Click += new System.EventHandler(this.btnCERSelect_Click);
-            // 
-            // btnPFXSelect
-            // 
-            this.btnPFXSelect.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.btnPFXSelect.Location = new System.Drawing.Point(596, 186);
-            this.btnPFXSelect.Name = "btnPFXSelect";
-            this.btnPFXSelect.Size = new System.Drawing.Size(55, 21);
-            this.btnPFXSelect.TabIndex = 13;
-            this.btnPFXSelect.Text = "···";
-            this.btnPFXSelect.UseVisualStyleBackColor = true;
-            this.btnPFXSelect.Click += new System.EventHandler(this.btnPFXSelect_Click);
-            // 
-            // txtCERPath
-            // 
-            this.txtCERPath.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.txtCERPath.Location = new System.Drawing.Point(265, 296);
-            this.txtCERPath.Name = "txtCERPath";
-            this.txtCERPath.Size = new System.Drawing.Size(325, 21);
-            this.txtCERPath.TabIndex = 12;
-            // 
-            // label6
-            // 
-            this.label6.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(197, 299);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(65, 12);
-            this.label6.TabIndex = 11;
-            this.label6.Text = "公钥证书：";
-            // 
-            // txtPFXPwd
-            // 
-            this.txtPFXPwd.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.txtPFXPwd.Location = new System.Drawing.Point(265, 241);
-            this.txtPFXPwd.Name = "txtPFXPwd";
-            this.txtPFXPwd.PasswordChar = '*';
-            this.txtPFXPwd.Size = new System.Drawing.Size(325, 21);
-            this.txtPFXPwd.TabIndex = 10;
-            // 
-            // label5
-            // 
-            this.label5.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(197, 244);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(65, 12);
-            this.label5.TabIndex = 9;
-            this.label5.Text = "商户秘钥：";
-            // 
-            // txtPFXPath
-            // 
-            this.txtPFXPath.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.txtPFXPath.Location = new System.Drawing.Point(263, 186);
-            this.txtPFXPath.Name = "txtPFXPath";
-            this.txtPFXPath.Size = new System.Drawing.Size(325, 21);
-            this.txtPFXPath.TabIndex = 8;
-            // 
-            // label3
-            // 
-            this.label3.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(197, 189);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(65, 12);
-            this.label3.TabIndex = 7;
-            this.label3.Text = "私钥证书：";
-            // 
-            // btnSave
-            // 
-            this.btnSave.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.btnSave.Location = new System.Drawing.Point(395, 354);
-            this.btnSave.Name = "btnSave";
-            this.btnSave.Size = new System.Drawing.Size(75, 23);
-            this.btnSave.TabIndex = 6;
-            this.btnSave.Text = "保存";
-            this.btnSave.UseVisualStyleBackColor = true;
-            this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
-            // 
-            // txbMchName
-            // 
-            this.txbMchName.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.txbMchName.Location = new System.Drawing.Point(263, 131);
-            this.txbMchName.Name = "txbMchName";
-            this.txbMchName.Size = new System.Drawing.Size(325, 21);
-            this.txbMchName.TabIndex = 4;
-            // 
-            // label4
-            // 
-            this.label4.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(197, 134);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(65, 12);
-            this.label4.TabIndex = 3;
-            this.label4.Text = "商户名称：";
-            // 
-            // txbMchID
-            // 
-            this.txbMchID.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.txbMchID.Location = new System.Drawing.Point(263, 76);
-            this.txbMchID.Name = "txbMchID";
-            this.txbMchID.Size = new System.Drawing.Size(325, 21);
-            this.txbMchID.TabIndex = 2;
-            // 
-            // label2
-            // 
-            this.label2.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(209, 79);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(53, 12);
-            this.label2.TabIndex = 1;
-            this.label2.Text = "商户号：";
-            // 
-            // panel8
-            // 
-            this.panel8.Controls.Add(this.btnBatchSubmit);
-            this.panel8.Controls.Add(this.btnSelectFile);
-            this.panel8.Controls.Add(this.txtBatchFile);
-            this.panel8.Controls.Add(this.label9);
-            this.panel8.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel8.Location = new System.Drawing.Point(3, 3);
-            this.panel8.Name = "panel8";
-            this.panel8.Size = new System.Drawing.Size(825, 375);
-            this.panel8.TabIndex = 0;
-            // 
-            // btnBatchSubmit
-            // 
-            this.btnBatchSubmit.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.btnBatchSubmit.Location = new System.Drawing.Point(385, 226);
-            this.btnBatchSubmit.Name = "btnBatchSubmit";
-            this.btnBatchSubmit.Size = new System.Drawing.Size(75, 23);
-            this.btnBatchSubmit.TabIndex = 7;
-            this.btnBatchSubmit.Text = "确认提交";
-            this.btnBatchSubmit.UseVisualStyleBackColor = true;
-            this.btnBatchSubmit.Click += new System.EventHandler(this.btnBatchSubmit_Click);
-            // 
-            // btnSelectFile
-            // 
-            this.btnSelectFile.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.btnSelectFile.Location = new System.Drawing.Point(676, 125);
-            this.btnSelectFile.Name = "btnSelectFile";
-            this.btnSelectFile.Size = new System.Drawing.Size(75, 23);
-            this.btnSelectFile.TabIndex = 6;
-            this.btnSelectFile.Text = "浏览";
-            this.btnSelectFile.UseVisualStyleBackColor = true;
-            this.btnSelectFile.Click += new System.EventHandler(this.btnSelectFile_Click);
-            // 
-            // txtBatchFile
-            // 
-            this.txtBatchFile.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.txtBatchFile.Location = new System.Drawing.Point(168, 127);
-            this.txtBatchFile.Name = "txtBatchFile";
-            this.txtBatchFile.Size = new System.Drawing.Size(502, 21);
-            this.txtBatchFile.TabIndex = 5;
-            // 
-            // label9
-            // 
-            this.label9.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(73, 130);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(89, 12);
-            this.label9.TabIndex = 4;
-            this.label9.Text = "选择代扣文件：";
-            // 
-            // panel9
-            // 
-            this.panel9.Controls.Add(this.btnBatchPaySubmit);
-            this.panel9.Controls.Add(this.btnSelectPayFile);
-            this.panel9.Controls.Add(this.txbBatchPayFile);
-            this.panel9.Controls.Add(this.label10);
-            this.panel9.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel9.Location = new System.Drawing.Point(3, 3);
-            this.panel9.Name = "panel9";
-            this.panel9.Size = new System.Drawing.Size(825, 375);
-            this.panel9.TabIndex = 0;
-            // 
-            // btnBatchPaySubmit
-            // 
-            this.btnBatchPaySubmit.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.btnBatchPaySubmit.Location = new System.Drawing.Point(385, 226);
-            this.btnBatchPaySubmit.Name = "btnBatchPaySubmit";
-            this.btnBatchPaySubmit.Size = new System.Drawing.Size(75, 23);
-            this.btnBatchPaySubmit.TabIndex = 7;
-            this.btnBatchPaySubmit.Text = "确认提交";
-            this.btnBatchPaySubmit.UseVisualStyleBackColor = true;
-            this.btnBatchPaySubmit.Click += new System.EventHandler(this.btnBatchPaySubmit_Click);
-            // 
-            // btnSelectPayFile
-            // 
-            this.btnSelectPayFile.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.btnSelectPayFile.Location = new System.Drawing.Point(676, 125);
-            this.btnSelectPayFile.Name = "btnSelectPayFile";
-            this.btnSelectPayFile.Size = new System.Drawing.Size(75, 23);
-            this.btnSelectPayFile.TabIndex = 6;
-            this.btnSelectPayFile.Text = "浏览";
-            this.btnSelectPayFile.UseVisualStyleBackColor = true;
-            this.btnSelectPayFile.Click += new System.EventHandler(this.btnSelectPayFile_Click);
-            // 
-            // txbBatchPayFile
-            // 
-            this.txbBatchPayFile.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.txbBatchPayFile.Location = new System.Drawing.Point(168, 127);
-            this.txbBatchPayFile.Name = "txbBatchPayFile";
-            this.txbBatchPayFile.Size = new System.Drawing.Size(502, 21);
-            this.txbBatchPayFile.TabIndex = 5;
-            // 
-            // label10
-            // 
-            this.label10.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(73, 130);
-            this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(89, 12);
-            this.label10.TabIndex = 4;
-            this.label10.Text = "选择代付文件：";
-            // 
-            // tabControl1
-            // 
-            this.tabControl1.Controls.Add(this.tabPage1);
-            this.tabControl1.Controls.Add(this.tabPage6);
-            this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tabControl1.Location = new System.Drawing.Point(0, 0);
-            this.tabControl1.Name = "tabControl1";
-            this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(839, 457);
-            this.tabControl1.TabIndex = 15;
-            // 
-            // tabPage1
-            // 
-            this.tabPage1.Controls.Add(this.panel10);
-            this.tabPage1.Location = new System.Drawing.Point(4, 22);
-            this.tabPage1.Name = "tabPage1";
-            this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(831, 431);
-            this.tabPage1.TabIndex = 0;
-            this.tabPage1.Text = "商户参数设置";
-            this.tabPage1.UseVisualStyleBackColor = true;
-            // 
-            // tabPage6
-            // 
-            this.tabPage6.Controls.Add(this.dgvChannelInfo);
-            this.tabPage6.Controls.Add(this.panel11);
-            this.tabPage6.Location = new System.Drawing.Point(4, 22);
-            this.tabPage6.Name = "tabPage6";
-            this.tabPage6.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage6.Size = new System.Drawing.Size(831, 431);
-            this.tabPage6.TabIndex = 1;
-            this.tabPage6.Text = "商户信息查询";
-            this.tabPage6.UseVisualStyleBackColor = true;
-            // 
-            // panel10
-            // 
-            this.panel10.Controls.Add(this.txbMchName);
-            this.panel10.Controls.Add(this.txbMchID);
-            this.panel10.Controls.Add(this.txtPFXPath);
-            this.panel10.Controls.Add(this.btnCERSelect);
-            this.panel10.Controls.Add(this.label5);
-            this.panel10.Controls.Add(this.label2);
-            this.panel10.Controls.Add(this.label3);
-            this.panel10.Controls.Add(this.btnPFXSelect);
-            this.panel10.Controls.Add(this.txtPFXPwd);
-            this.panel10.Controls.Add(this.label4);
-            this.panel10.Controls.Add(this.btnSave);
-            this.panel10.Controls.Add(this.txtCERPath);
-            this.panel10.Controls.Add(this.label6);
-            this.panel10.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel10.Location = new System.Drawing.Point(3, 3);
-            this.panel10.Name = "panel10";
-            this.panel10.Size = new System.Drawing.Size(825, 425);
-            this.panel10.TabIndex = 15;
-            // 
-            // panel11
-            // 
-            this.panel11.Controls.Add(this.btnQueryChannel);
-            this.panel11.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panel11.Location = new System.Drawing.Point(3, 3);
-            this.panel11.Name = "panel11";
-            this.panel11.Size = new System.Drawing.Size(825, 50);
-            this.panel11.TabIndex = 0;
-            // 
-            // dgvChannelInfo
-            // 
-            this.dgvChannelInfo.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvChannelInfo.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dgvChannelInfo.Location = new System.Drawing.Point(3, 53);
-            this.dgvChannelInfo.Name = "dgvChannelInfo";
-            this.dgvChannelInfo.RowTemplate.Height = 23;
-            this.dgvChannelInfo.Size = new System.Drawing.Size(825, 375);
-            this.dgvChannelInfo.TabIndex = 1;
-            // 
-            // btnQueryChannel
-            // 
-            this.btnQueryChannel.Location = new System.Drawing.Point(24, 12);
-            this.btnQueryChannel.Name = "btnQueryChannel";
-            this.btnQueryChannel.Size = new System.Drawing.Size(75, 23);
-            this.btnQueryChannel.TabIndex = 2;
-            this.btnQueryChannel.Text = "查询";
-            this.btnQueryChannel.UseVisualStyleBackColor = true;
-            this.btnQueryChannel.Click += new System.EventHandler(this.btnQueryChannel_Click);
-            // 
-            // DF_NAME
-            // 
-            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle5.NullValue = null;
-            this.DF_NAME.DefaultCellStyle = dataGridViewCellStyle5;
-            this.DF_NAME.FillWeight = 40F;
-            this.DF_NAME.HeaderText = "请求参数名";
-            this.DF_NAME.Name = "DF_NAME";
-            this.DF_NAME.ReadOnly = true;
-            this.DF_NAME.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.DF_NAME.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            // 
-            // DF_VALUE
-            // 
-            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            this.DF_VALUE.DefaultCellStyle = dataGridViewCellStyle6;
-            this.DF_VALUE.FillWeight = 60F;
-            this.DF_VALUE.HeaderText = "请求参数值";
-            this.DF_VALUE.Name = "DF_VALUE";
-            // 
-            // DK_NAME
-            // 
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle2.NullValue = null;
-            this.DK_NAME.DefaultCellStyle = dataGridViewCellStyle2;
-            this.DK_NAME.FillWeight = 40F;
-            this.DK_NAME.HeaderText = "请求参数名";
-            this.DK_NAME.Name = "DK_NAME";
-            this.DK_NAME.ReadOnly = true;
-            this.DK_NAME.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.DK_NAME.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            // 
-            // DK_VALUE
-            // 
-            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            this.DK_VALUE.DefaultCellStyle = dataGridViewCellStyle3;
-            this.DK_VALUE.FillWeight = 60F;
-            this.DK_VALUE.HeaderText = "请求参数值";
-            this.DK_VALUE.Name = "DK_VALUE";
-            // 
             // MainFrm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -956,6 +991,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.dgvRequestParam)).EndInit();
             this.panel6.ResumeLayout(false);
             this.tpBatch.ResumeLayout(false);
+            this.panel8.ResumeLayout(false);
+            this.panel8.PerformLayout();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.tabPage2.ResumeLayout(false);
@@ -965,26 +1002,24 @@
             ((System.ComponentModel.ISupportInitialize)(this.dgvPayRequest)).EndInit();
             this.panel5.ResumeLayout(false);
             this.tpBatchPay.ResumeLayout(false);
+            this.panel9.ResumeLayout(false);
+            this.panel9.PerformLayout();
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
             this.tabPage4.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dgv_sd)).EndInit();
             this.panel1.ResumeLayout(false);
             this.tabPage5.ResumeLayout(false);
-            this.panel3.ResumeLayout(false);
-            this.panel3.PerformLayout();
             this.panel2.ResumeLayout(false);
-            this.panel8.ResumeLayout(false);
-            this.panel8.PerformLayout();
-            this.panel9.ResumeLayout(false);
-            this.panel9.PerformLayout();
             this.tabControl1.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
-            this.tabPage6.ResumeLayout(false);
             this.panel10.ResumeLayout(false);
             this.panel10.PerformLayout();
-            this.panel11.ResumeLayout(false);
+            this.tabPage6.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dgvChannelInfo)).EndInit();
+            this.panel11.ResumeLayout(false);
+            this.panel3.ResumeLayout(false);
+            this.panel3.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -1064,6 +1099,9 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn DF_VALUE;
         private System.Windows.Forms.DataGridViewTextBoxColumn DK_NAME;
         private System.Windows.Forms.DataGridViewTextBoxColumn DK_VALUE;
+        private System.Windows.Forms.Label label12;
+        private System.Windows.Forms.Label label11;
+        private System.Windows.Forms.TextBox txbOrgKey;
 
     }
 }

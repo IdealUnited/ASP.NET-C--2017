@@ -1,18 +1,19 @@
-﻿using System;
+﻿using ComLibrary;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Text;
 
 namespace SandLibrary
 {
-    public class SandDFRequestParamList
+    public class SandDFRequestParamList:BaseRequestParamList
     {
 
         /// <summary>
         /// 定义Key为string类型，Value为object类型的一个Dictionary,key用|分隔，分别表示英文|中文|类型
         /// </summary>
         /// <returns></returns>
-        private Dictionary<string, object> SetKeyValue()
+        public override Dictionary<string, object> SetKeyValue()
         {
             Dictionary<string, object> ParamDiclist = new Dictionary<string, object>();
             ParamDiclist.Add("version|版本号|s|N","01");
@@ -38,13 +39,13 @@ namespace SandLibrary
         }
 
 
-        /// <summary>
-        /// 得到根据指定的Key行到Value
-        /// </summary>
-        public Dictionary<string, object> GetKeyValue()
-        {
-            return SetKeyValue();
-        }
+        ///// <summary>
+        ///// 得到根据指定的Key行到Value
+        ///// </summary>
+        //public Dictionary<string, object> GetKeyValue()
+        //{
+        //    return SetKeyValue();
+        //}
 
         private string GetRandomString()
         {
