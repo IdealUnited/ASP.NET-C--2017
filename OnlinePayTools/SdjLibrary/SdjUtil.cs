@@ -16,39 +16,43 @@ namespace SdjLibrary
 
         public static string sign(string encryptStr, string prvPath, string prvPws)
         {
-            string sign = "";
+            //string sign = "";
 
-            X509Certificate2 privateKeyInfo = DataCertificate.GetCertificateFromPfxFile(prvPath, prvPws);
-            string merchantPublicKey = privateKeyInfo.PublicKey.Key.ToXmlString(false);  // 公钥
-            string merchantPrivateKey = privateKeyInfo.PrivateKey.ToXmlString(true);  // 私钥
-            sign = RSAUtil.RSAEncrypt(merchantPrivateKey, encryptStr);
+            //X509Certificate2 privateKeyInfo = DataCertificate.GetCertificateFromPfxFile(prvPath, prvPws);
+            //string merchantPublicKey = privateKeyInfo.PublicKey.Key.ToXmlString(false);  // 公钥
+            //string merchantPrivateKey = privateKeyInfo.PrivateKey.ToXmlString(true);  // 私钥
+            //sign = RSAUtil.RSAEncrypt(merchantPublicKey, encryptStr);
+
+
+            string sign = RSAUtil.Base64Encoder(RSAUtil.CreateSignWithPrivateKey(RSAUtil.getBytesFromString(encryptStr, Encoding.UTF8),RSAUtil.getPrivateKeyXmlFromPFX(prvPath, prvPws)));
+            //string sign= RSAUtil.Base64Encoder(RSAUtil.CreateSignWithPrivateKey(RSAUtil.getBytesFromString("abcdefg123456", Encoding.UTF8),RSAUtil.getPrivateKeyXmlFromPFX(prvPath, prvPws)));
             return sign;
         }
 
-        public static string generateMd5Sign(Dictionary<string, string> paramDic, string orgKey)
-        {
-            string str = createSdjLinkStr(paramDic);
-            //MD5加密
-            string signStr = str + "&merKey=" + orgKey;
-            log.Write("盛迪嘉待加签德字符串:" + signStr);
-
-            string sign = Md5Util.encrypt(signStr);
-
-            return sign;
-            //str 值key1=value1&key2=value2&key3=value3&key4=value4
-        }
-
-        public static string createSdjLinkStr(Dictionary<string, string> paramDic)
+        public static string createSdjDKLinkStr(Dictionary<string, string> paramDic)
         {
 
             string signStr = "certNo=" + paramDic["certNo"].ToString()
                 + "&inputCharset=" + paramDic["inputCharset"].ToString()
                 + "&interfaceVersion=" + paramDic["interfaceVersion"].ToString()
-                + "&notifyUrl=" + paramDic["notifyUrl"].ToString()
+                //+ "&notifyUrl=" + paramDic["notifyUrl"].ToString()
                 + "&orderNo=" + paramDic["orderNo"].ToString()
+                + "&payAmount=" + paramDic["payAmount"].ToString()
                 + "&payeeId=" + paramDic["payeeId"].ToString()
                 + "&payerAcc=" + paramDic["payerAcc"].ToString()
                 + "&platformCode=" + paramDic["platformCode"].ToString()
+                + "&serviceType=" + paramDic["serviceType"].ToString();
+            return signStr;
+        }
+
+        public static string createSdjQueryLinkStr(Dictionary<string, string> paramDic)
+        {
+
+            string signStr ="&inputCharset=" + paramDic["inputCharset"].ToString()
+                + "&interfaceVersion=" + paramDic["interfaceVersion"].ToString()
+                + "&orderNo=" + paramDic["orderNo"].ToString()
+                + "&payeeId=" + paramDic["payeeId"].ToString()
+                + "&queryType=" + paramDic["queryType"].ToString()
                 + "&serviceType=" + paramDic["serviceType"].ToString();
             return signStr;
         }
@@ -81,59 +85,20 @@ namespace SdjLibrary
 
         public static string cerEncrypt(string md5SignStr, string cerPath)
         {
-            string cerEncryptStr = "";
-            // 加载公私钥
-            X509Certificate2 publicKeyInfo = DataCertificate.GetCertFromCerFile(cerPath);
-            string platPublicKey = publicKeyInfo.PublicKey.Key.ToXmlString(false);
-            cerEncryptStr = RSAUtil.RSAEncrypt(platPublicKey, md5SignStr);
-            return cerEncryptStr;
+            //string cerEncryptStr = "";
+            //// 加载公私钥
+            //X509Certificate2 publicKeyInfo = DataCertificate.GetCertFromCerFile(cerPath);
+            //string platPublicKey = publicKeyInfo.PublicKey.Key.ToXmlString(false);
+            //cerEncryptStr = RSAUtil.RSAEncrypt(platPublicKey, md5SignStr);
+            //return cerEncryptStr;
+
+            string signature = RSAUtil.Base64Encoder(RSAUtil.RSAEncrypt(RSAUtil.getPublicKeyXmlFromCer(cerPath).PublicKey.Key.ToXmlString(false),
+            RSAUtil.getBytesFromString(md5SignStr, Encoding.UTF8)));
+
+            //string encryptKey = RSAUtil.Base64Encoder(RSAUtil.RSAEncrypt(RSAUtil.getPublicKeyXmlFromCer(cerPath).PublicKey.Key.ToXmlString(false),
+            //   RSAUtil.getBytesFromString("abcdefg123456", Encoding.UTF8)));
+            //signature = "2/L4Kashpqvxv6g23RhRpQPKR6oEqu0u3iqvFcmEgH/6jpwErTz0R6uQxyB7ELW/IxmqYj4d+MFu//HCA25AzbJa1MbKxEdCU00a1C351LIcFnUMgPM4Ijs3xG2F+2efUMxWgKzTUPl2WKYnwdxiHRMXQStIgL8k6VDz9QM/kYh7e2J0JHM/JGnu0XZ3OZ2GqmYOvxUA3h4FheOmZ1q3WhySzgrVPpO7Xs7HzjfD/F2k8x+TJrocRq/5LIb2toW3i6QG0uFH60Rc2xGa9M+8HxShU5fgepdwGymeRuUCl2Av2O27wQtDnytYviw68EvE4ZlzZVx3KBF0V8A7dz6Q4A==";
+            return signature;
         }
-
-
-        /// <summary>
-        /// 使用私钥加密字符串
-        /// </summary>
-        /// <param name="key">需加密的字符</param>
-        /// <param name="keyPath">私钥证书文件地址</param>
-        public string EncryptKey(string key, string keyPath)
-        {
-            X509Certificate2 c2 = new X509Certificate2(AppDomain.CurrentDomain.BaseDirectory + "bin\\client.cer");
-
-            string keyPublic2 = c2.PublicKey.Key.ToXmlString(false);
-
-            string cypher2 = RSAEncrypt(keyPublic2, key);  // 加密  
-            return cypher2;
-        }
-
-
-        /// <summary>
-        /// RSA解密
-        /// </summary>
-        /// <param name="xmlPrivateKey"></param>
-        /// <param name="m_strDecryptString"></param>
-        /// <returns></returns>
-        static string RSADecrypt(string xmlPrivateKey, string m_strDecryptString)
-        {
-            RSACryptoServiceProvider provider = new RSACryptoServiceProvider();
-            provider.FromXmlString(xmlPrivateKey);
-            byte[] rgb = Convert.FromBase64String(m_strDecryptString);
-            byte[] bytes = provider.Decrypt(rgb, false);
-            return new UnicodeEncoding().GetString(bytes);
-        }
-        /// <summary>   
-        /// RSA加密   
-        /// </summary>   
-        /// <param name="xmlPublicKey"></param>   
-        /// <param name="m_strEncryptString"></param>   
-        /// <returns></returns>   
-        static string RSAEncrypt(string xmlPublicKey, string m_strEncryptString)
-        {
-            RSACryptoServiceProvider provider = new RSACryptoServiceProvider();
-            provider.FromXmlString(xmlPublicKey);
-            byte[] bytes = new UnicodeEncoding().GetBytes(m_strEncryptString);
-            return Convert.ToBase64String(provider.Encrypt(bytes, false));
-        }
-
-
     }
 }

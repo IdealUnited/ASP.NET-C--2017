@@ -45,7 +45,6 @@ namespace OnlinePayTools
             this.rbSinglePay.Checked = true;
             //btnRefresh_Click(null, null);
             //this.initSandDFRequestData();
-
             try
             {
                 Settings cfg = Settings.Default;
@@ -266,7 +265,31 @@ namespace OnlinePayTools
         /// <param name="e"></param>
         private void cmbSYS_SelectedIndexChanged(object sender, EventArgs e)
         {
-
+            //
+            ChannelInfo channelInfo = this.cmbSYS.SelectedItem == null ? null : (ChannelInfo)this.cmbSYS.SelectedItem;
+            try
+            {
+                if (null != channelInfo)
+                {
+                    Settings cfg = Settings.Default;
+                    DbUtility dbUtil = new DbUtility(cfg.localConnectionString, DbProviderType.OleDb);
+                    string strSelectSql = "select * from ChannelConfig where 1=1 and channelCode='" + channelInfo.SysId + "'";
+                    List<MerchantInfo> mchInfoList = dbUtil.QueryForList<MerchantInfo>(strSelectSql, null);
+                    if (mchInfoList != null && mchInfoList.Count > 0)
+                    {
+                        this.txbMchID.Text = mchInfoList[0].MchId;
+                        this.txbMchName.Text = mchInfoList[0].MchName;
+                        this.txtPFXPath.Text = mchInfoList[0].Code2;
+                        this.txtPFXPwd.Text = mchInfoList[0].Code1;
+                        this.txtCERPath.Text = mchInfoList[0].Code3;
+                        this.txbOrgKey.Text = mchInfoList[0].Code4;
+                    }
+                }
+            }
+            catch (System.Exception ex)
+            {
+                log.Write("初始化杉德渠道数错误：" + ex.Message);
+            }
         }
 
         /// <summary>
@@ -835,6 +858,9 @@ namespace OnlinePayTools
                             {
                                 case "100001":
                                     doSandQuery(orderId, mchId,transTime, mchName, pfxPath, pfxPwd, cerPath, payType, orderType);
+                                    break;
+                                case "100002":
+                                    doSdjQuery(orderId, mchId, transTime, mchName, pfxPath, pfxPwd, cerPath, payType, orderType);
                                     break;
 
                             }
@@ -1540,11 +1566,35 @@ namespace OnlinePayTools
         /// <param name="payType"></param>
         private void doSdjQuery(string orderId, string mchId, string tranTime, string mchName, string pfxPath, string pfxPwd, string cerPath, string payType, string orderType)
         {
-           
+            Settings cfg = Settings.Default;
+            DbUtility dbUtil = new DbUtility(cfg.localConnectionString, DbProviderType.OleDb);
+            Dictionary<string, string> dic = new Dictionary<string, string>();
+            dic.Add("orderNo", orderId);
+
+            //解密后的服务器返回
+            BaseRequest sdjRequest = new SdjRequest(dic, mchId, mchName, pfxPath, pfxPwd, cerPath, "");
+            BaseResponse sdjResponse = new SdjResponse();
+            sdjResponse = sdjRequest.doQuery();
+            try
+            {
+                string strUpdateSql = "update CollectionOrder set "
+                       + " status = " + sdjResponse.status
+                       + ", updateTime='" + DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss") + "'"
+                       + ", bankOrderNo='" + sdjResponse.bankOrderNo + "'"
+                       + ",respCode='" + sdjResponse.respCode + "'"
+                       + ",respMsg='" + sdjResponse.respMsg + "'"
+                       + " where orderId='" + sdjResponse.orderId + "'";
+                cfg = Settings.Default;
+                dbUtil = new DbUtility(cfg.localConnectionString, DbProviderType.OleDb);
+                int effectNo = dbUtil.ExecuteNonQuery(strUpdateSql, null);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+                log.Write(ex, MsgType.Error);
+                return;
+            }
         }
-        
-
-
         #endregion
     }
 }

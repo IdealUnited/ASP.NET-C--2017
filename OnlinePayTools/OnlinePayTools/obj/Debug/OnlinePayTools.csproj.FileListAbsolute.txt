@@ -32,5 +32,5 @@ C:\Users\lijingneng\Source\Repos\ASP.NET-C--2017\OnlinePayTools\OnlinePayTools\b
 C:\Users\lijingneng\Source\Repos\ASP.NET-C--2017\OnlinePayTools\OnlinePayTools\bin\Debug\DBLibrary.pdb
 C:\Users\lijingneng\Source\Repos\ASP.NET-C--2017\OnlinePayTools\OnlinePayTools\bin\Debug\SandLibrary.pdb
 C:\Users\lijingneng\Source\Repos\ASP.NET-C--2017\OnlinePayTools\OnlinePayTools\bin\Debug\SdjLibrary.pdb
-C:\Users\lijingneng\Source\Repos\ASP.NET-C--2017\OnlinePayTools\OnlinePayTools\bin\Debug\HttpLibrary.dll
-C:\Users\lijingneng\Source\Repos\ASP.NET-C--2017\OnlinePayTools\OnlinePayTools\bin\Debug\HttpLibrary.pdb
+C:\Users\lijingneng\Source\Repos\ASP.NET-C--2017\OnlinePayTools\OnlinePayTools\bin\Debug\WebLibrary.dll
+C:\Users\lijingneng\Source\Repos\ASP.NET-C--2017\OnlinePayTools\OnlinePayTools\bin\Debug\WebLibrary.pdb

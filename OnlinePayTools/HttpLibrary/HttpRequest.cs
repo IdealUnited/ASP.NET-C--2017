@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.IO;
 using System.Net;
 using System.Net.Security;
@@ -141,19 +142,13 @@ namespace HttpLibrary
             myreader.Close();
             return responseText;
         }
-        public static string post(string url, IDictionary<string, string> parameters)
+        public static string post(string url, IDictionary<string, string> parameters, Encoding EncodingName)
         {
             string strURL =url;
-            System.Net.HttpWebRequest request;
-            request = (System.Net.HttpWebRequest)WebRequest.Create(strURL);
-            //Post请求方式
-            request.Method = "POST";
-            // 内容类型
-            request.ContentType = "application/x-www-form-urlencoded";
+            StringBuilder buffer = new StringBuilder();
             //如果需要POST数据   
             if (!(parameters == null || parameters.Count == 0))
             {
-                StringBuilder buffer = new StringBuilder();
                 int i = 0;
                 foreach (string key in parameters.Keys)
                 {
@@ -167,19 +162,25 @@ namespace HttpLibrary
                     }
                     i++;
                 }
-                byte[] data = System.Text.Encoding.UTF8.GetBytes(buffer.ToString());
-                using (Stream stream = request.GetRequestStream())
-                {
-                    stream.Write(data, 0, data.Length);
-                }
             }
-            System.Net.HttpWebResponse response;
-            // 获得响应流
-            response = (System.Net.HttpWebResponse)request.GetResponse();
-            System.IO.StreamReader myreader = new System.IO.StreamReader(response.GetResponseStream(), Encoding.UTF8);
-            string responseText = myreader.ReadToEnd();
-            myreader.Close();
-            return responseText;
+            byte[] buff = EncodingName.GetBytes(buffer.ToString());
+            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(strURL);
+            request.Method = "POST";
+            request.ContentType = "application/x-www-form-urlencoded";
+
+            Stream myRequestStream = request.GetRequestStream();
+            myRequestStream.Write(buff, 0, buff.Length);
+            myRequestStream.Close();
+
+
+            HttpWebResponse response = (HttpWebResponse)request.GetResponse();
+
+            Stream myResponseStream = response.GetResponseStream();
+            StreamReader myStreamReader = new StreamReader(myResponseStream, EncodingName);
+            string retString = myStreamReader.ReadToEnd();
+            myStreamReader.Close();
+            myResponseStream.Close();
+            return retString;
         }
 
         public static string send(string strUrl,string requestBody) {
@@ -194,6 +195,17 @@ namespace HttpLibrary
             string postResult = Encoding.UTF8.GetString(result);
             return postResult;
 
+        }
+        public static string HttpPost(string postUrl, NameValueCollection nvc, Encoding EncodingName)
+        {
+            using (WebClient wc = new WebClient())
+            {
+                //添加必要的http请求头
+                wc.Headers.Add(HttpRequestHeader.UserAgent, "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.4 (KHTML, like Gecko) Chrome/22.0.1229.94 Safari/537.4 AlexaToolbar/alxg-3.1");
+                var bytes = wc.UploadValues(postUrl, nvc);
+                string responseStr = EncodingName.GetString(bytes);
+                return responseStr;
+            }
         }
     }
 }
