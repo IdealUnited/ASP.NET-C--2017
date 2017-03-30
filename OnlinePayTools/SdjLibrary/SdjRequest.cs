@@ -26,7 +26,8 @@ namespace SdjLibrary
         {
             BaseResponse sdjResponse = new SdjResponse();
 
-            Dictionary<string, string> reqParam = this.requestDic;
+            Dictionary<string, string> reqParam = new Dictionary<string, string>();
+            reqParam=this.requestDic;
             string signType = requestDic["signType"].ToString();
             reqParam.Add("payeeId", this.mchId);
             reqParam.Remove("sign");
@@ -85,8 +86,8 @@ namespace SdjLibrary
         public override BaseResponse doQuery()
         {
             BaseResponse sdjResponse = new SdjResponse();
-            Dictionary<string, string> reqParam = this.requestDic;
-            string orderNo = reqParam.ContainsKey("orderNo") ? reqParam["orderNo"] : "";
+            Dictionary<string, string> reqParam = new Dictionary<string, string>();
+            string orderNo = this.requestDic.ContainsKey("orderNo") ? this.requestDic["orderNo"] : "";
             reqParam.Add("serviceType", "agentPayQuery");
             reqParam.Add("payeeId", this.mchId);
             reqParam.Add("interfaceVersion", "V1.0");
@@ -133,16 +134,20 @@ namespace SdjLibrary
                     sdjResponse.returnMsg = "代扣成功";
                     sdjResponse.status = "1";
                 }
-                else if ("000010".Equals(sdjResponse.respCode))
-                {
-                    sdjResponse.returnCode = "0000";
-                    sdjResponse.returnMsg = "提交成功";
-                }
-                else
-                {
+                //else if ("000010".Equals(sdjResponse.respCode))
+                //{
+                //    sdjResponse.returnCode = "0000";
+                //    sdjResponse.returnMsg = "提交成功";
+                //}
+                else if("100000".Equals(sdjResponse.respCode)){
                     sdjResponse.returnCode = "9999";
                     sdjResponse.returnMsg = sdjResponse.respMsg;
                     sdjResponse.status = "2";
+                }
+                else//进行中
+                {
+                    sdjResponse.returnCode = "9999";
+                    sdjResponse.returnMsg = sdjResponse.respMsg;
                 }
             }
             return sdjResponse;

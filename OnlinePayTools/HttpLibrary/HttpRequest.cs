@@ -200,6 +200,7 @@ namespace HttpLibrary
         {
             using (WebClient wc = new WebClient())
             {
+                wc.Encoding = EncodingName;
                 //添加必要的http请求头
                 wc.Headers.Add(HttpRequestHeader.UserAgent, "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.4 (KHTML, like Gecko) Chrome/22.0.1229.94 Safari/537.4 AlexaToolbar/alxg-3.1");
                 var bytes = wc.UploadValues(postUrl, nvc);

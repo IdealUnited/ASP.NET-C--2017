@@ -15,30 +15,30 @@ namespace SdjLibrary
         public override Dictionary<string, object> SetKeyValue()
         {
             Dictionary<string, object> ParamDiclist = new Dictionary<string, object>();
-            ParamDiclist.Add("serviceType|业务类型|s|Y", "agentPay");
+            ParamDiclist.Add("serviceType|业务类型|s|N", "agentPay");
             //ParamDiclist.Add("payeeId|商家号|s|Y", "");
-            ParamDiclist.Add("inputCharset|参数编码字符集|s|Y", "UTF-8");
-            ParamDiclist.Add("notifyUrl|服务器异步通知地址|s|Y", "http://localhost/resp.htm");
-            ParamDiclist.Add("clientIp|客户端IP|s|Y", "");
-            ParamDiclist.Add("interfaceVersion|接口版本|s|Y", "V1.0");
-            ParamDiclist.Add("signType|签名方式|s|Y", "MD5");
-            ParamDiclist.Add("sign|签名|s|Y", "");
+            ParamDiclist.Add("inputCharset|参数编码字符集|s|N", "UTF-8");
+            ParamDiclist.Add("notifyUrl|服务器异步通知地址|s|N", "http://localhost/resp.htm");
+            ParamDiclist.Add("clientIp|客户端IP|s|N", "");
+            ParamDiclist.Add("interfaceVersion|接口版本|s|N", "V1.0");
+            ParamDiclist.Add("signType|签名方式|s|N", "MD5");
+            ParamDiclist.Add("sign|签名|s|N", "");
             ParamDiclist.Add("signature|加密数据|s|N", "");
             ParamDiclist.Add("orderNo|商户网站唯一订单号|s|Y", "dk" + DateTime.Now.ToString("yyyyMMddHHmmss") + GetRandomString());
             ParamDiclist.Add("orderTime|商户订单时间|s|Y", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
-            ParamDiclist.Add("payAmount|商户订单总金额|s|Y", "100");
-            ParamDiclist.Add("platformCode|商户平台编号|s|Y", "newp2p");
-            ParamDiclist.Add("bankCode|银行代码|s|Y", "");
-            ParamDiclist.Add("payerAcc|银行卡号|s|Y", "6228480129910796262");
-            ParamDiclist.Add("payerName|姓名|s|Y", "张三");
-            ParamDiclist.Add("provNo|行政区域编码|s|Y", "");
-            ParamDiclist.Add("certNo|身份证|s|Y", "430527198605174227");
-            ParamDiclist.Add("productName|商品名称|s|Y", "");
-            ParamDiclist.Add("showUrl|商品展示URL|s|Y", "");
-            ParamDiclist.Add("productCode|商品编号|s|Y", "");
-            ParamDiclist.Add("productNum|商品数量|s|Y", "");
-            ParamDiclist.Add("productDesc|商品描述|s|Y", "");
-            ParamDiclist.Add("extendParam|公用业务扩展参数|s|Y", "");//参数格式：参数名1^参数值|参数名2^参数值2，多条数据间用"|"间隔
+            ParamDiclist.Add("payAmount|商户订单总金额|s|Y", "");
+            ParamDiclist.Add("platformCode|商户平台编号|s|N", "newp2p");
+            ParamDiclist.Add("bankCode|银行代码|s|N", "");
+            ParamDiclist.Add("payerAcc|银行卡号|s|Y", "");
+            ParamDiclist.Add("payerName|姓名|s|Y", "");
+            ParamDiclist.Add("provNo|行政区域编码|s|N", "");
+            ParamDiclist.Add("certNo|身份证|s|Y", "");
+            ParamDiclist.Add("productName|商品名称|s|N", "");
+            ParamDiclist.Add("showUrl|商品展示URL|s|N", "");
+            ParamDiclist.Add("productCode|商品编号|s|N", "");
+            ParamDiclist.Add("productNum|商品数量|s|N", "");
+            ParamDiclist.Add("productDesc|商品描述|s|N", "");
+            ParamDiclist.Add("extendParam|公用业务扩展参数|s|N", "");//参数格式：参数名1^参数值|参数名2^参数值2，多条数据间用"|"间隔
             /*extendParam|公用业务扩展参数
             参数	       参数名称 	    类型（长度）	使用	说明
             收货人信息	   			        

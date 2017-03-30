@@ -70,6 +70,9 @@ namespace OnlinePayTools
             //窗口加载的时候 开启一个子线程
             Thread thread = new Thread(new ParameterizedThreadStart(Run));
             thread.Start();
+
+            //隐藏代付
+            this.tabPage2.Parent = null;
         }
 
         /// <summary>
