@@ -52,6 +52,7 @@ namespace SdjLibrary
             //string serverUrl = "http://183.11.223.20:12586/api/commNewDk/CommDkNewPay";
             string serverUrl = "https://api.jiajiepay.com/v2/commNewDk/CommDkNewPay";
             string responseStr = HttpRequest.HttpPost(serverUrl, nvc, Encoding.UTF8);
+            log.Write("提交返回返回：" + responseStr);
             JavaScriptSerializer jsonSer = new JavaScriptSerializer();
             Dictionary<string, string> dicRslt;
             dicRslt = jsonSer.Deserialize<Dictionary<string, string>>(responseStr);
@@ -115,6 +116,7 @@ namespace SdjLibrary
             //string serverUrl =" http://183.11.223.20:12586/api/tradingQueryController/tradingQuery"
             string serverUrl = "https://api.jiajiepay.com/v2/tradingQueryController/tradingQuery";
             string responseStr = HttpRequest.HttpPost(serverUrl, nvc, Encoding.UTF8);
+            log.Write(orderNo + "-查询返回：" + responseStr);
             JavaScriptSerializer jsonSer = new JavaScriptSerializer();
             Dictionary<string, string> dicRslt;
             dicRslt = jsonSer.Deserialize<Dictionary<string, string>>(responseStr);
@@ -180,6 +182,7 @@ namespace SdjLibrary
             //string serverUrl = "http://183.11.223.20:12586/api/tradingDaifuController/tradingDaifu";
             string serverUrl = "https://api.jiajiepay.com/v2/tradingDaifuController/tradingDaifu";
             string responseStr = HttpRequest.HttpPost(serverUrl, nvc, Encoding.UTF8);
+            log.Write("提交返回：" + responseStr);
             JavaScriptSerializer jsonSer = new JavaScriptSerializer();
             Dictionary<string, string> dicRslt;
             dicRslt = jsonSer.Deserialize<Dictionary<string, string>>(responseStr);
