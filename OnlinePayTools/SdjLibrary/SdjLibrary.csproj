@@ -45,6 +45,7 @@
     <Compile Include="SdjRequest.cs" />
     <Compile Include="SdjResponse.cs" />
     <Compile Include="SdjDKRequestParamList.cs" />
+    <Compile Include="SdjDFRequestParamList.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ComLibrary\ComLibrary.csproj">

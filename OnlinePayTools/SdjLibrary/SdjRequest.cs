@@ -19,7 +19,6 @@ namespace SdjLibrary
         public SdjRequest(Dictionary<string, string> requestDic, string mchId, string mchName, string pfxPath, string pfxPwd, string cerPath, string orgKey)
             : base(requestDic, mchId, mchName, pfxPath, pfxPwd, cerPath, orgKey)
         {
-
         }
 
         public override BaseResponse doCollection()
@@ -27,7 +26,7 @@ namespace SdjLibrary
             BaseResponse sdjResponse = new SdjResponse();
 
             Dictionary<string, string> reqParam = new Dictionary<string, string>();
-            reqParam=this.requestDic;
+            reqParam = this.requestDic;
             string signType = requestDic["signType"].ToString();
             reqParam.Add("payeeId", this.mchId);
             reqParam.Remove("sign");
@@ -50,7 +49,8 @@ namespace SdjLibrary
             {
                 nvc.Add(key, reqParam[key]);
             }
-            string serverUrl = "http://183.11.223.20:12586/api/commNewDk/CommDkNewPay";
+            //string serverUrl = "http://183.11.223.20:12586/api/commNewDk/CommDkNewPay";
+            string serverUrl = "https://api.jiajiepay.com/v2/commNewDk/CommDkNewPay";
             string responseStr = HttpRequest.HttpPost(serverUrl, nvc, Encoding.UTF8);
             JavaScriptSerializer jsonSer = new JavaScriptSerializer();
             Dictionary<string, string> dicRslt;
@@ -112,7 +112,8 @@ namespace SdjLibrary
             {
                 nvc.Add(key, reqParam[key]);
             }
-            string serverUrl = "http://183.11.223.20:12586/api/commNewDk/CommDkNewPay";
+            //string serverUrl =" http://183.11.223.20:12586/api/tradingQueryController/tradingQuery"
+            string serverUrl = "https://api.jiajiepay.com/v2/tradingQueryController/tradingQuery";
             string responseStr = HttpRequest.HttpPost(serverUrl, nvc, Encoding.UTF8);
             JavaScriptSerializer jsonSer = new JavaScriptSerializer();
             Dictionary<string, string> dicRslt;
@@ -134,12 +135,8 @@ namespace SdjLibrary
                     sdjResponse.returnMsg = "代扣成功";
                     sdjResponse.status = "1";
                 }
-                //else if ("000010".Equals(sdjResponse.respCode))
-                //{
-                //    sdjResponse.returnCode = "0000";
-                //    sdjResponse.returnMsg = "提交成功";
-                //}
-                else if("100000".Equals(sdjResponse.respCode)){
+                else if ("100000".Equals(sdjResponse.respCode))
+                {
                     sdjResponse.returnCode = "9999";
                     sdjResponse.returnMsg = sdjResponse.respMsg;
                     sdjResponse.status = "2";
@@ -151,6 +148,68 @@ namespace SdjLibrary
                 }
             }
             return sdjResponse;
+        }
+        public override BaseResponse doAgentPay()
+        {
+            BaseResponse sdjResponse = new SdjResponse();
+
+            Dictionary<string, string> reqParam = new Dictionary<string, string>();
+            reqParam = this.requestDic;
+            string signType = requestDic["signType"].ToString();
+            reqParam.Add("payeeId", this.mchId);
+            reqParam.Remove("sign");
+            reqParam.Remove("signType");
+            reqParam.Remove("signature");
+            string sdjDKLinkStr = SdjUtil.createSdjDFLinkStr(reqParam);
+            string md5Str = sdjDKLinkStr + "&merKey=" + orgKey;
+            log.Write("盛迪嘉代付待加签德字符串:" + md5Str);
+            string md5Sign = Md5Util.encrypt(md5Str);
+            //证书加密数据
+            string encryptStr = SdjUtil.cerEncrypt(md5Sign, this.cerPath);
+            //证书签名数据
+            string sign = SdjUtil.sign(encryptStr, this.pfxPath, this.pfxPwd);
+            reqParam.Add("signType", signType);
+            reqParam.Add("signature", encryptStr);
+            reqParam.Add("sign", sign);
+
+            NameValueCollection nvc = new NameValueCollection();
+            foreach (string key in reqParam.Keys)
+            {
+                nvc.Add(key, reqParam[key]);
+            }
+            //string serverUrl = "http://183.11.223.20:12586/api/tradingDaifuController/tradingDaifu";
+            string serverUrl = "https://api.jiajiepay.com/v2/tradingDaifuController/tradingDaifu";
+            string responseStr = HttpRequest.HttpPost(serverUrl, nvc, Encoding.UTF8);
+            JavaScriptSerializer jsonSer = new JavaScriptSerializer();
+            Dictionary<string, string> dicRslt;
+            dicRslt = jsonSer.Deserialize<Dictionary<string, string>>(responseStr);
+            //{"execCode":"000000","orderNo":"1234567819922","tradeNo":"2017032900010000000000733188","execMsg":"订单交易成功","poundage":"0.6","payeeId":"8619143953"}
+            sdjResponse.orderId = dicRslt.ContainsKey("orderNo") ? dicRslt["orderNo"] : "";
+            sdjResponse.respCode = dicRslt.ContainsKey("execCode") ? dicRslt["execCode"] : "";
+            sdjResponse.respMsg = dicRslt.ContainsKey("execMsg") ? dicRslt["execMsg"] : "";
+            sdjResponse.bankOrderNo = dicRslt.ContainsKey("tradeNo") ? dicRslt["tradeNo"] : "";
+            log.Write("respCode[" + sdjResponse.respCode + "]" + "respDesc[" + sdjResponse.respMsg + "]");
+
+            sdjResponse.status = "0";
+
+            if ("000000".Equals(sdjResponse.respCode))
+            {
+                sdjResponse.returnCode = "0000";
+                sdjResponse.returnMsg = "提交成功";
+                sdjResponse.status = "1";
+            }
+            else if ("000010".Equals(sdjResponse.respCode))
+            {
+                sdjResponse.returnCode = "0000";
+                sdjResponse.returnMsg = "提交成功";
+            }
+            else
+            {
+                sdjResponse.returnCode = "9999";
+                sdjResponse.returnMsg = sdjResponse.respMsg;
+            }
+            return sdjResponse;
+
         }
     }
 }

@@ -28,9 +28,9 @@ namespace SdjLibrary
             ParamDiclist.Add("orderTime|商户订单时间|s|Y", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
             ParamDiclist.Add("payAmount|商户订单总金额|s|Y", "");
             ParamDiclist.Add("platformCode|商户平台编号|s|N", "newp2p");
-            ParamDiclist.Add("bankCode|银行代码|s|N", "");
+            ParamDiclist.Add("bankCode|银行代码|listDic|Y", bankCodeNameMapping);
             ParamDiclist.Add("payerAcc|银行卡号|s|Y", "");
-            ParamDiclist.Add("payerName|姓名|s|Y", "");
+            ParamDiclist.Add("payerName|姓名|s|Y","" );
             ParamDiclist.Add("provNo|行政区域编码|s|N", "");
             ParamDiclist.Add("certNo|身份证|s|Y", "");
             ParamDiclist.Add("productName|商品名称|s|N", "");
@@ -77,5 +77,6 @@ namespace SdjLibrary
         private List<DictionaryEntry> accTypeDicList = new List<DictionaryEntry>() { new DictionaryEntry("银行卡", "4"), new DictionaryEntry("公司账户", "3") };
         private List<DictionaryEntry> certTypIndivDicList = new List<DictionaryEntry>() { new DictionaryEntry("身份证", "0101"), new DictionaryEntry("临时身份证", "0102"), new DictionaryEntry("户口簿", "0103"), new DictionaryEntry("军官证", "0104"), new DictionaryEntry("警官证", "0105"), new DictionaryEntry("士兵证", "0106"), new DictionaryEntry("文职干部证", "0107"), new DictionaryEntry("外国护照", "0108"), new DictionaryEntry("香港通行证", "0109"), new DictionaryEntry("澳门通行证", "0110"), new DictionaryEntry("台湾通行证或有效旅行证件", "0111"), new DictionaryEntry("军官退休证", "0112"), new DictionaryEntry("中国护照", "0113"), new DictionaryEntry("外国人永久居留证", "0114"), new DictionaryEntry("军事学员证", "0115"), new DictionaryEntry("离休干部荣誉证", "0116"), new DictionaryEntry("边民出入境通行证", "0117"), new DictionaryEntry("村民委员会证明", "0118"), new DictionaryEntry("学生证", "0119"), new DictionaryEntry("护照", "0120"), new DictionaryEntry("香港居民来往内地通行证", "0121"), new DictionaryEntry("澳门居民来往内地通行证", "0122"), new DictionaryEntry("台湾同胞来往内地通行证", "0123"), new DictionaryEntry("其它", "0124") };
         private List<DictionaryEntry> certTypeCompDicList = new List<DictionaryEntry>() { new DictionaryEntry("统一社会信用代码", "0201"), new DictionaryEntry("组织机构代码证号", "0202"), new DictionaryEntry("营业执照号码", "0203"), new DictionaryEntry("登记证书", "0204"), new DictionaryEntry("国税登记证号码", "0205"), new DictionaryEntry("地税登记证号码", "0206"), new DictionaryEntry("开户许可证", "0207"), new DictionaryEntry("事业单位编号", "0208"), new DictionaryEntry("金融许可证编号", "0209"), new DictionaryEntry("其他证件", "0210") };
+        private List<DictionaryEntry> bankCodeNameMapping = new List<DictionaryEntry>() { new DictionaryEntry("请选择", ""), new DictionaryEntry("农业银行", "ABC"), new DictionaryEntry("工商银行", "ICBC"), new DictionaryEntry("建设银行", "CCB"), new DictionaryEntry("交通银行", "BCM"), new DictionaryEntry("中国银行", "BC"), new DictionaryEntry("招商银行", "CMB"), new DictionaryEntry("民生银行", "CMBC"), new DictionaryEntry("光大银行", "EBBC"), new DictionaryEntry("兴业银行", "CIB"), new DictionaryEntry("中国邮政", "PSBC"), new DictionaryEntry("平安银行", "PAB"), new DictionaryEntry("中信银行", "CTIB"), new DictionaryEntry("广东发展银行", "GDB"), new DictionaryEntry("华夏银行", "HXB"), new DictionaryEntry("浦发银行", "SPDB"), new DictionaryEntry("东亚银行", "BEA"), new DictionaryEntry("中国移动手机支付", "CMPAY"), new DictionaryEntry("北京银行", "BOB"), new DictionaryEntry("宁波银行", "NBCB"), new DictionaryEntry("杭州银行", "HZB"), new DictionaryEntry("上海银行", "SHB"), new DictionaryEntry("包商银行", "BSB"), new DictionaryEntry("江苏银行", "JSBC"), new DictionaryEntry("南粤银行", "NYB"), new DictionaryEntry("广州银行", "GZCB"), new DictionaryEntry("浙商银行", "CZB"), new DictionaryEntry("渤海银行", "CBHB"), new DictionaryEntry("华润银行", "CRBANK"), new DictionaryEntry("兰州银行", "LZCB"), new DictionaryEntry("厦门银行", "XMB") };
     }
 }

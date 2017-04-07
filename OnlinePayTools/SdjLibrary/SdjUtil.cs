@@ -16,16 +16,9 @@ namespace SdjLibrary
 
         public static string sign(string encryptStr, string prvPath, string prvPws)
         {
-            //string sign = "";
-
-            //X509Certificate2 privateKeyInfo = DataCertificate.GetCertificateFromPfxFile(prvPath, prvPws);
-            //string merchantPublicKey = privateKeyInfo.PublicKey.Key.ToXmlString(false);  // 公钥
-            //string merchantPrivateKey = privateKeyInfo.PrivateKey.ToXmlString(true);  // 私钥
-            //sign = RSAUtil.RSAEncrypt(merchantPublicKey, encryptStr);
-
-
-            string sign = RSAUtil.Base64Encoder(RSAUtil.CreateSignWithPrivateKey(RSAUtil.getBytesFromString(encryptStr, Encoding.UTF8),RSAUtil.getPrivateKeyXmlFromPFX(prvPath, prvPws)));
-            //string sign= RSAUtil.Base64Encoder(RSAUtil.CreateSignWithPrivateKey(RSAUtil.getBytesFromString("abcdefg123456", Encoding.UTF8),RSAUtil.getPrivateKeyXmlFromPFX(prvPath, prvPws)));
+            //string sign = RSAUtil.Base64Encoder(RSAUtil.CreateSignWithPrivateKey(RSAUtil.getBytesFromString(encryptStr, Encoding.UTF8),RSAUtil.getPrivateKeyXmlFromPFX(prvPath, prvPws)));//测试环境
+            string sign = RSAUtil.Base64Encoder(RSAUtil.CreateSignWithPrivateKeyBySHA256(RSAUtil.getBytesFromString(encryptStr, Encoding.UTF8), RSAUtil.getPrivateKeyXmlFromPFX(prvPath, prvPws)));//生产环境
+           
             return sign;
         }
 
@@ -45,10 +38,25 @@ namespace SdjLibrary
             return signStr;
         }
 
+        public static string createSdjDFLinkStr(Dictionary<string, string> paramDic)
+        {
+            string signStr = "bankAccountType=" + paramDic["bankAccountType"].ToString()
+                + "&bankCode=" + paramDic["bankCode"].ToString()
+                + "&inputCharset=" + paramDic["inputCharset"].ToString()
+                + "&interfaceVersion=" + paramDic["interfaceVersion"].ToString()
+                //+ "&notifyUrl=" + paramDic["notifyUrl"].ToString()
+                + "&orderNo=" + paramDic["orderNo"].ToString()
+                + "&payAmount=" + paramDic["payAmount"].ToString()
+                + "&payeeAcc=" + paramDic["payeeAcc"].ToString()
+                + "&payeeId=" + paramDic["payeeId"].ToString()
+                + "&serviceType=" + paramDic["serviceType"].ToString();
+            return signStr;
+        }
+
         public static string createSdjQueryLinkStr(Dictionary<string, string> paramDic)
         {
 
-            string signStr ="&inputCharset=" + paramDic["inputCharset"].ToString()
+            string signStr ="inputCharset=" + paramDic["inputCharset"].ToString()
                 + "&interfaceVersion=" + paramDic["interfaceVersion"].ToString()
                 + "&orderNo=" + paramDic["orderNo"].ToString()
                 + "&payeeId=" + paramDic["payeeId"].ToString()
@@ -85,19 +93,8 @@ namespace SdjLibrary
 
         public static string cerEncrypt(string md5SignStr, string cerPath)
         {
-            //string cerEncryptStr = "";
-            //// 加载公私钥
-            //X509Certificate2 publicKeyInfo = DataCertificate.GetCertFromCerFile(cerPath);
-            //string platPublicKey = publicKeyInfo.PublicKey.Key.ToXmlString(false);
-            //cerEncryptStr = RSAUtil.RSAEncrypt(platPublicKey, md5SignStr);
-            //return cerEncryptStr;
-
             string signature = RSAUtil.Base64Encoder(RSAUtil.RSAEncrypt(RSAUtil.getPublicKeyXmlFromCer(cerPath).PublicKey.Key.ToXmlString(false),
             RSAUtil.getBytesFromString(md5SignStr, Encoding.UTF8)));
-
-            //string encryptKey = RSAUtil.Base64Encoder(RSAUtil.RSAEncrypt(RSAUtil.getPublicKeyXmlFromCer(cerPath).PublicKey.Key.ToXmlString(false),
-            //   RSAUtil.getBytesFromString("abcdefg123456", Encoding.UTF8)));
-            //signature = "2/L4Kashpqvxv6g23RhRpQPKR6oEqu0u3iqvFcmEgH/6jpwErTz0R6uQxyB7ELW/IxmqYj4d+MFu//HCA25AzbJa1MbKxEdCU00a1C351LIcFnUMgPM4Ijs3xG2F+2efUMxWgKzTUPl2WKYnwdxiHRMXQStIgL8k6VDz9QM/kYh7e2J0JHM/JGnu0XZ3OZ2GqmYOvxUA3h4FheOmZ1q3WhySzgrVPpO7Xs7HzjfD/F2k8x+TJrocRq/5LIb2toW3i6QG0uFH60Rc2xGa9M+8HxShU5fgepdwGymeRuUCl2Av2O27wQtDnytYviw68EvE4ZlzZVx3KBF0V8A7dz6Q4A==";
             return signature;
         }
     }

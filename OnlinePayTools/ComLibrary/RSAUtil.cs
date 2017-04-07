@@ -202,7 +202,7 @@ namespace ComLibrary
             return new X509Certificate2(Cer_file);
         }
         /// <summary>
-        /// 使用私钥签名
+        /// 使用私钥签名（默认Sh1withRsa）
         /// </summary>
         /// <param name="msgin"></param>
         /// <param name="pfx"></param>
@@ -216,8 +216,19 @@ namespace ComLibrary
             signCrt.SetKey(pfx.PrivateKey);
             signCrt.SetHashAlgorithm("sha1");
             return signCrt.CreateSignature(hashdata);
-
         }
+
+        public static byte[] CreateSignWithPrivateKeyBySHA256(byte[] msgin, X509Certificate2 pfx)
+        {
+            var rsa = pfx.PrivateKey as RSACryptoServiceProvider;
+            // Create a new RSACryptoServiceProvider
+            RSACryptoServiceProvider rsaClear = new RSACryptoServiceProvider();
+            // Export RSA parameters from 'rsa' and import them into 'rsaClear'
+            rsaClear.ImportParameters(rsa.ExportParameters(true));
+            byte[] signature = rsaClear.SignData(msgin, CryptoConfig.CreateFromName("SHA256"));
+            return signature;
+        }
+
         /// <summary>
         /// 公钥验证签名
         /// </summary>
@@ -236,7 +247,8 @@ namespace ComLibrary
             signV.FromXmlString(cer.PublicKey.Key.ToXmlString(false));
             //return signV.VerifyData(hashdata, "sha1", sign);
 
-            return signV.VerifyData(msgin, CryptoConfig.MapNameToOID("SHA1"), sign);
+            //return signV.VerifyData(msgin, CryptoConfig.MapNameToOID("SHA1"), sign);//测试环境用sh1
+            return signV.VerifyData(msgin, CryptoConfig.MapNameToOID("SHA1"), sign);//生产环境用sh256
         }
 
         public static string Base64Encoder(byte[] b)
