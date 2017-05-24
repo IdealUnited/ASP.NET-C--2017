@@ -108,9 +108,25 @@
             this.dgvChannelInfo = new System.Windows.Forms.DataGridView();
             this.panel11 = new System.Windows.Forms.Panel();
             this.btnQueryChannel = new System.Windows.Forms.Button();
+            this.tabPage7 = new System.Windows.Forms.TabPage();
+            this.label14 = new System.Windows.Forms.Label();
+            this.txtYytA_key = new System.Windows.Forms.TextBox();
+            this.txtYytM_name = new System.Windows.Forms.TextBox();
+            this.txtYytMid = new System.Windows.Forms.TextBox();
+            this.txtYytT_id = new System.Windows.Forms.TextBox();
+            this.label15 = new System.Windows.Forms.Label();
+            this.label16 = new System.Windows.Forms.Label();
+            this.label17 = new System.Windows.Forms.Label();
+            this.txtYytW_id = new System.Windows.Forms.TextBox();
+            this.label18 = new System.Windows.Forms.Label();
+            this.btnYytSave = new System.Windows.Forms.Button();
+            this.txtYytA_id = new System.Windows.Forms.TextBox();
+            this.label19 = new System.Windows.Forms.Label();
             this.panel3 = new System.Windows.Forms.Panel();
             this.cmbSYS = new System.Windows.Forms.ComboBox();
             this.label1 = new System.Windows.Forms.Label();
+            this.label20 = new System.Windows.Forms.Label();
+            this.txtYytF_Id = new System.Windows.Forms.TextBox();
             this.tabControl2.SuspendLayout();
             this.tabPage3.SuspendLayout();
             this.tcDK.SuspendLayout();
@@ -141,6 +157,7 @@
             this.tabPage6.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvChannelInfo)).BeginInit();
             this.panel11.SuspendLayout();
+            this.tabPage7.SuspendLayout();
             this.panel3.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -706,6 +723,7 @@
             // 
             this.tabControl1.Controls.Add(this.tabPage1);
             this.tabControl1.Controls.Add(this.tabPage6);
+            this.tabControl1.Controls.Add(this.tabPage7);
             this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabControl1.Location = new System.Drawing.Point(0, 0);
             this.tabControl1.Name = "tabControl1";
@@ -942,6 +960,150 @@
             this.btnQueryChannel.UseVisualStyleBackColor = true;
             this.btnQueryChannel.Click += new System.EventHandler(this.btnQueryChannel_Click);
             // 
+            // tabPage7
+            // 
+            this.tabPage7.Controls.Add(this.label20);
+            this.tabPage7.Controls.Add(this.txtYytF_Id);
+            this.tabPage7.Controls.Add(this.label14);
+            this.tabPage7.Controls.Add(this.txtYytA_key);
+            this.tabPage7.Controls.Add(this.txtYytM_name);
+            this.tabPage7.Controls.Add(this.txtYytMid);
+            this.tabPage7.Controls.Add(this.txtYytT_id);
+            this.tabPage7.Controls.Add(this.label15);
+            this.tabPage7.Controls.Add(this.label16);
+            this.tabPage7.Controls.Add(this.label17);
+            this.tabPage7.Controls.Add(this.txtYytW_id);
+            this.tabPage7.Controls.Add(this.label18);
+            this.tabPage7.Controls.Add(this.btnYytSave);
+            this.tabPage7.Controls.Add(this.txtYytA_id);
+            this.tabPage7.Controls.Add(this.label19);
+            this.tabPage7.Location = new System.Drawing.Point(4, 22);
+            this.tabPage7.Name = "tabPage7";
+            this.tabPage7.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage7.Size = new System.Drawing.Size(831, 431);
+            this.tabPage7.TabIndex = 2;
+            this.tabPage7.Text = "银盈通商户信息配置";
+            this.tabPage7.UseVisualStyleBackColor = true;
+            // 
+            // label14
+            // 
+            this.label14.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.label14.AutoSize = true;
+            this.label14.Location = new System.Drawing.Point(214, 308);
+            this.label14.Name = "label14";
+            this.label14.Size = new System.Drawing.Size(59, 12);
+            this.label14.TabIndex = 31;
+            this.label14.Text = "app_key：";
+            // 
+            // txtYytA_key
+            // 
+            this.txtYytA_key.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.txtYytA_key.Location = new System.Drawing.Point(282, 305);
+            this.txtYytA_key.Name = "txtYytA_key";
+            this.txtYytA_key.Size = new System.Drawing.Size(325, 21);
+            this.txtYytA_key.TabIndex = 32;
+            // 
+            // txtYytM_name
+            // 
+            this.txtYytM_name.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.txtYytM_name.Location = new System.Drawing.Point(280, 80);
+            this.txtYytM_name.Name = "txtYytM_name";
+            this.txtYytM_name.Size = new System.Drawing.Size(325, 21);
+            this.txtYytM_name.TabIndex = 21;
+            // 
+            // txtYytMid
+            // 
+            this.txtYytMid.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.txtYytMid.Location = new System.Drawing.Point(280, 35);
+            this.txtYytMid.Name = "txtYytMid";
+            this.txtYytMid.Size = new System.Drawing.Size(325, 21);
+            this.txtYytMid.TabIndex = 19;
+            // 
+            // txtYytT_id
+            // 
+            this.txtYytT_id.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.txtYytT_id.Location = new System.Drawing.Point(280, 125);
+            this.txtYytT_id.Name = "txtYytT_id";
+            this.txtYytT_id.Size = new System.Drawing.Size(325, 21);
+            this.txtYytT_id.TabIndex = 24;
+            // 
+            // label15
+            // 
+            this.label15.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.label15.AutoSize = true;
+            this.label15.Location = new System.Drawing.Point(214, 173);
+            this.label15.Name = "label15";
+            this.label15.Size = new System.Drawing.Size(53, 12);
+            this.label15.TabIndex = 25;
+            this.label15.Text = "钱包Id：";
+            // 
+            // label16
+            // 
+            this.label16.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.label16.AutoSize = true;
+            this.label16.Location = new System.Drawing.Point(214, 38);
+            this.label16.Name = "label16";
+            this.label16.Size = new System.Drawing.Size(53, 12);
+            this.label16.TabIndex = 18;
+            this.label16.Text = "商户号：";
+            // 
+            // label17
+            // 
+            this.label17.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.label17.AutoSize = true;
+            this.label17.Location = new System.Drawing.Point(214, 128);
+            this.label17.Name = "label17";
+            this.label17.Size = new System.Drawing.Size(53, 12);
+            this.label17.TabIndex = 23;
+            this.label17.Text = "终端号：";
+            // 
+            // txtYytW_id
+            // 
+            this.txtYytW_id.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.txtYytW_id.Location = new System.Drawing.Point(282, 170);
+            this.txtYytW_id.Name = "txtYytW_id";
+            this.txtYytW_id.Size = new System.Drawing.Size(325, 21);
+            this.txtYytW_id.TabIndex = 26;
+            // 
+            // label18
+            // 
+            this.label18.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.label18.AutoSize = true;
+            this.label18.Location = new System.Drawing.Point(214, 83);
+            this.label18.Name = "label18";
+            this.label18.Size = new System.Drawing.Size(65, 12);
+            this.label18.TabIndex = 20;
+            this.label18.Text = "商户名称：";
+            // 
+            // btnYytSave
+            // 
+            this.btnYytSave.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.btnYytSave.Location = new System.Drawing.Point(384, 368);
+            this.btnYytSave.Name = "btnYytSave";
+            this.btnYytSave.Size = new System.Drawing.Size(75, 23);
+            this.btnYytSave.TabIndex = 22;
+            this.btnYytSave.Text = "保存";
+            this.btnYytSave.UseVisualStyleBackColor = true;
+            this.btnYytSave.Click += new System.EventHandler(this.btnYytSave_Click);
+            // 
+            // txtYytA_id
+            // 
+            this.txtYytA_id.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.txtYytA_id.Location = new System.Drawing.Point(282, 260);
+            this.txtYytA_id.Name = "txtYytA_id";
+            this.txtYytA_id.Size = new System.Drawing.Size(325, 21);
+            this.txtYytA_id.TabIndex = 28;
+            // 
+            // label19
+            // 
+            this.label19.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.label19.AutoSize = true;
+            this.label19.Location = new System.Drawing.Point(214, 263);
+            this.label19.Name = "label19";
+            this.label19.Size = new System.Drawing.Size(35, 12);
+            this.label19.TabIndex = 27;
+            this.label19.Text = "aid：";
+            // 
             // panel3
             // 
             this.panel3.Controls.Add(this.cmbSYS);
@@ -971,6 +1133,24 @@
             this.label1.Size = new System.Drawing.Size(65, 12);
             this.label1.TabIndex = 0;
             this.label1.Text = "三方平台：";
+            // 
+            // label20
+            // 
+            this.label20.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.label20.AutoSize = true;
+            this.label20.Location = new System.Drawing.Point(214, 218);
+            this.label20.Name = "label20";
+            this.label20.Size = new System.Drawing.Size(53, 12);
+            this.label20.TabIndex = 34;
+            this.label20.Text = "资产Id：";
+            // 
+            // txtYytF_Id
+            // 
+            this.txtYytF_Id.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.txtYytF_Id.Location = new System.Drawing.Point(282, 215);
+            this.txtYytF_Id.Name = "txtYytF_Id";
+            this.txtYytF_Id.Size = new System.Drawing.Size(325, 21);
+            this.txtYytF_Id.TabIndex = 35;
             // 
             // MainFrm
             // 
@@ -1018,6 +1198,8 @@
             this.tabPage6.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dgvChannelInfo)).EndInit();
             this.panel11.ResumeLayout(false);
+            this.tabPage7.ResumeLayout(false);
+            this.tabPage7.PerformLayout();
             this.panel3.ResumeLayout(false);
             this.panel3.PerformLayout();
             this.ResumeLayout(false);
@@ -1102,6 +1284,22 @@
         private System.Windows.Forms.Label label12;
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.TextBox txbOrgKey;
+        private System.Windows.Forms.TabPage tabPage7;
+        private System.Windows.Forms.Label label14;
+        private System.Windows.Forms.TextBox txtYytA_key;
+        private System.Windows.Forms.TextBox txtYytM_name;
+        private System.Windows.Forms.TextBox txtYytMid;
+        private System.Windows.Forms.TextBox txtYytT_id;
+        private System.Windows.Forms.Label label15;
+        private System.Windows.Forms.Label label16;
+        private System.Windows.Forms.Label label17;
+        private System.Windows.Forms.TextBox txtYytW_id;
+        private System.Windows.Forms.Label label18;
+        private System.Windows.Forms.Button btnYytSave;
+        private System.Windows.Forms.TextBox txtYytA_id;
+        private System.Windows.Forms.Label label19;
+        private System.Windows.Forms.Label label20;
+        private System.Windows.Forms.TextBox txtYytF_Id;
 
     }
 }

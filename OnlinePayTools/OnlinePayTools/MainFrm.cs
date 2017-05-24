@@ -18,6 +18,7 @@ using System.Text;
 using System.Threading;
 using System.Web.Script.Serialization;
 using System.Windows.Forms;
+using YytLibrary;
 
 namespace OnlinePayTools
 {
@@ -25,7 +26,7 @@ namespace OnlinePayTools
     {
         //public static bool IsRunning = false;
         LogUtil log = new LogUtil();
-        private List<ChannelInfo> channelInfoList = new List<ChannelInfo>() { new ChannelInfo("100001", "杉德支付平台"), new ChannelInfo("100002", "盛迪嘉支付平台") };
+        private List<ChannelInfo> channelInfoList = new List<ChannelInfo>() { new ChannelInfo("100001", "杉德支付平台"), new ChannelInfo("100002", "盛迪嘉支付平台"), new ChannelInfo("100003", "银盈通支付平台") };
 
         public MainFrm()
         {
@@ -205,6 +206,10 @@ namespace OnlinePayTools
                         BaseRequestParamList sdjDKRequestData = new SdjDKRequestParamList();
                         initRequestData(sdjDKRequestData, this.dgvRequestParam);
                         break;
+                    case "100003":
+                        BaseRequestParamList yytDKRequestData = new YytDKRequestParamList();
+                        initRequestData(yytDKRequestData, this.dgvRequestParam);
+                        break;
                 }
             }
         }
@@ -215,7 +220,26 @@ namespace OnlinePayTools
         /// <param name="e"></param>
         private void btnRefreshPay_Click(object sender, EventArgs e)
         {
-            //this.initSandDFRequestData();
+            //获取商户信息
+            MerchantInfo mchInfo = (MerchantInfo)this.cmbMerchant.SelectedItem;
+            if (mchInfo != null)
+            {
+                switch (mchInfo.ChannelCode)
+                {
+                    case "100001":
+                        BaseRequestParamList sandDFRequestData = new SandDFRequestParamList();
+                        initRequestData(sandDFRequestData, this.dgvPayRequest);
+                        break;
+                    case "100002":
+                        BaseRequestParamList sdjDFRequestData = new SdjDFRequestParamList();
+                        initRequestData(sdjDFRequestData, this.dgvPayRequest);
+                        break;
+                    case "100003":
+                        BaseRequestParamList yytDFRequestData = new YytDFRequestParamList();
+                        initRequestData(yytDFRequestData, this.dgvPayRequest);
+                        break;
+                }
+            }
         }
 
         private void initRequestData(BaseRequestParamList _requestParamList,DataGridView _toShowDGV) {
@@ -281,12 +305,26 @@ namespace OnlinePayTools
                     List<MerchantInfo> mchInfoList = dbUtil.QueryForList<MerchantInfo>(strSelectSql, null);
                     if (mchInfoList != null && mchInfoList.Count > 0)
                     {
-                        this.txbMchID.Text = mchInfoList[0].MchId;
-                        this.txbMchName.Text = mchInfoList[0].MchName;
-                        this.txtPFXPath.Text = mchInfoList[0].Code2;
-                        this.txtPFXPwd.Text = mchInfoList[0].Code1;
-                        this.txtCERPath.Text = mchInfoList[0].Code3;
-                        this.txbOrgKey.Text = mchInfoList[0].Code4;
+                        if (channelInfo.SysId.Equals("100003"))
+                        {
+                            this.tabControl1.SelectedTab = this.tabPage7;
+                            this.txtYytMid.Text = mchInfoList[0].MchId;
+                            this.txtYytM_name.Text = mchInfoList[0].MchName;
+                            this.txtYytT_id.Text = mchInfoList[0].Code2;
+                            this.txtYytW_id.Text = mchInfoList[0].Code1;
+                            this.txtYytF_Id.Text = mchInfoList[0].Code3;
+                            this.txtYytA_id.Text = mchInfoList[0].Code4;
+                            this.txtYytA_key.Text = mchInfoList[0].Code5;
+                        }
+                        else {
+                            this.tabControl1.SelectedTab = this.tabPage1;
+                            this.txbMchID.Text = mchInfoList[0].MchId;
+                            this.txbMchName.Text = mchInfoList[0].MchName;
+                            this.txtPFXPath.Text = mchInfoList[0].Code2;
+                            this.txtPFXPwd.Text = mchInfoList[0].Code1;
+                            this.txtCERPath.Text = mchInfoList[0].Code3;
+                            this.txbOrgKey.Text = mchInfoList[0].Code4;
+                        }
                     }
                 }
             }
@@ -316,11 +354,19 @@ namespace OnlinePayTools
                          BaseRequestParamList sdjDKRequestData = new SdjDKRequestParamList();
                          initRequestData(sdjDKRequestData, this.dgvRequestParam);
                         break;
+                    case "100003":
+                        BaseRequestParamList yytDKRequestData = new YytDKRequestParamList();
+                        initRequestData(yytDKRequestData, this.dgvRequestParam);
+                        break;
                 }
             }
 
         }
-
+        /// <summary>
+        /// 选择代付商户信息
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void cmbPay_SelectedIndexChanged(object sender, EventArgs e)
         {
             MerchantInfo mchInfo = (MerchantInfo)this.cmbPay.SelectedItem;
@@ -336,12 +382,16 @@ namespace OnlinePayTools
                         BaseRequestParamList sdjDFRequestData = new SdjDFRequestParamList();
                         initRequestData(sdjDFRequestData, this.dgvPayRequest);
                         break;
+                    case "100003":
+                        BaseRequestParamList yytDFRequestData = new YytDFRequestParamList();
+                        initRequestData(yytDFRequestData, this.dgvPayRequest);
+                        break;
                 }
             }
 
         }
 
-        #region 单笔提交
+        #region 单笔（代付，代扣）提交
         /// <summary>
         /// 代付提交
         /// </summary>
@@ -366,10 +416,15 @@ namespace OnlinePayTools
             switch (mchInfo.ChannelCode)
             {
                 case "100001":
-                    MessageBox.Show("暂不支持该渠道");
+                    //MessageBox.Show("暂不支持该渠道");
+                    doSandDF(this.dgvPayRequest, null, mchId, mchName, pfxPath, pfxPwd, cerPath);
                     break;
                 case "100002":
-                    doSdjDF(this.dgvRequestParam, null, mchId, mchName, orgKey, pfxPath, pfxPwd, cerPath);
+                    doSdjDF(this.dgvPayRequest, null, mchId, mchName, orgKey, pfxPath, pfxPwd, cerPath);
+                    break;
+                case "100003":
+                    MessageBox.Show("暂不支持该渠道");
+                    //doYytDF(this.dgvPayRequest, null, mchId, mchName, orgKey, pfxPath, pfxPwd, cerPath);
                     break;
 
             }
@@ -389,19 +444,16 @@ namespace OnlinePayTools
                 MessageBox.Show("请选择代扣商户");
                 return;
             }
-            string mchId = mchInfo.MchId;
-            string mchName = mchInfo.MchName;
-            string pfxPwd = mchInfo.Code1;
-            string pfxPath = mchInfo.Code2;
-            string cerPath = mchInfo.Code3;
-            string orgKey = mchInfo.Code4;
             switch (mchInfo.ChannelCode)
             {
                 case "100001":
-                    doSandDK(this.dgvRequestParam, null, mchId, mchName, pfxPath, pfxPwd, cerPath);
+                    doSandDK(this.dgvRequestParam, null, mchInfo.MchId, mchInfo.MchName, mchInfo.Code2, mchInfo.Code1, mchInfo.Code3);
                     break;
                 case "100002":
-                    doSdjDK(this.dgvRequestParam, null, mchId, mchName, orgKey, pfxPath, pfxPwd, cerPath);
+                    doSdjDK(this.dgvRequestParam, null, mchInfo.MchId, mchInfo.MchName, mchInfo.Code4, mchInfo.Code2, mchInfo.Code1, mchInfo.Code3);
+                    break;
+                case "100003":
+                    doYytDK(this.dgvRequestParam, null, mchInfo.MchId, mchInfo.MchName, mchInfo.Code1, mchInfo.Code2, mchInfo.Code3, mchInfo.Code4, mchInfo.Code5);
                     break;
 
             }
@@ -409,7 +461,7 @@ namespace OnlinePayTools
         }
         #endregion
 
-        #region 批量提交
+        #region 批量（代扣，代付）提交
         /// <summary>
         /// 选择批量代扣文件
         /// </summary>
@@ -626,6 +678,95 @@ namespace OnlinePayTools
 
         }
 
+
+        private void btnYytSave_Click(object sender, EventArgs e)
+        {
+            string sysId = this.cmbSYS.SelectedValue.ToString();
+            string sysName = this.cmbSYS.Text;
+
+            string mchId = this.txtYytMid.Text;
+            string mchName = this.txtYytM_name.Text;
+            string code1 = this.txtYytW_id.Text;
+            string code2 = this.txtYytT_id.Text;
+            string code3 = this.txtYytF_Id.Text;
+            string code4 = this.txtYytA_id.Text;
+            string code5 = this.txtYytA_key.Text;
+            try
+            {
+                Settings cfg = Settings.Default;
+                DbUtility dbUtil = new DbUtility(cfg.localConnectionString, DbProviderType.OleDb);
+                string strSelectSql = "select * from ChannelConfig where 1=1 and channelCode='" + sysId + "' and mchId ='" + mchId + "'";
+                DataTable dt = dbUtil.ExecuteDataTable(strSelectSql, null);
+                if (dt != null && dt.Rows.Count > 0)
+                {
+                    if (MessageBox.Show("该商户信息已经存在", "继续保存将覆盖原纪录？", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.No)
+                    {
+                        return;
+                    }
+                    else
+                    {
+                        //删除原纪录
+                        string strDeleteSql = "delete from ChannelConfig where channelCode='" + sysId + "' and mchId ='" + mchId + "'";
+                        int effectNo = dbUtil.ExecuteNonQuery(strDeleteSql, null);
+                    }
+                }
+
+                //保存记录
+                string strInsertSql = "insert into ChannelConfig(channelCode,channelName,mchId,mchName,status,createTime,updateTime,encryptType,code1,code2,code3,code4,code5,reserve1,reserve2)"
+                       + " VALUES ('" + sysId + "'"
+                       + ",'" + sysName + "'"
+                       + ",'" + mchId + "'"
+                       + ",'" + mchName + "'"
+                       + ",1"
+                       + ",'" + DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss") + "'"
+                       + ",null"
+                       + ",1"
+                       + ",'" + code1 + "'"
+                       + ",'" + code2 + "'"
+                       + ",'" + code3 + "'"
+                       + ",'" + code4 + "'"
+                       + ",'" + code5 + "'"
+                       + ",''"
+                       + ",''"
+                       + ")";
+
+                int insertCount = dbUtil.ExecuteNonQuery(strInsertSql, null);
+                if (insertCount == 1)
+                {
+                    MessageBox.Show("保存成功!");
+                }
+                //重新load商户信息
+                try
+                {
+                    strSelectSql = "select * from ChannelConfig where 1=1";
+                    List<MerchantInfo> mchInfoList = dbUtil.QueryForList<MerchantInfo>(strSelectSql, null);
+                    if (mchInfoList != null && mchInfoList.Count > 0)
+                    {
+                        this.cmbMerchant.DataSource = null;
+                        this.cmbMerchant.Items.Clear();
+                        this.cmbMerchant.DataSource = mchInfoList;
+                        this.cmbMerchant.DisplayMember = "mchName";
+                        this.cmbMerchant.ValueMember = "mchId";
+                        this.cmbPay.DataSource = null;
+                        this.cmbPay.Items.Clear();
+                        this.cmbPay.DataSource = mchInfoList;
+                        this.cmbPay.DisplayMember = "mchName";
+                        this.cmbPay.ValueMember = "mchId";
+                    }
+                }
+                catch (System.Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+
+        }
+
+
         /// <summary>
         /// 渠道信息查询
         /// </summary>
@@ -756,18 +897,18 @@ namespace OnlinePayTools
             if (dt == null)
             { //单笔
                 Dictionary<string, string> tempDic = new Dictionary<string, string>();
-                int rowCount = this.dgvRequestParam.Rows.Count;
+                int rowCount = RequestParamDGV.Rows.Count;
                 for (int i = 0; i < rowCount; i++)
                 {
                     string key = "";
                     string value = "";
-                    if (dgvRequestParam.Rows[i].Cells["DK_VALUE"] == null || dgvRequestParam.Rows[i].Cells["DK_VALUE"].Value == null)
+                    if (RequestParamDGV.Rows[i].Cells["DK_VALUE"] == null || RequestParamDGV.Rows[i].Cells["DK_VALUE"].Value == null)
                     {
-                        MessageBox.Show("请选择" + dgvRequestParam.Rows[i].Cells["DK_NAME"].Value.ToString().Trim() + "的值");
+                        MessageBox.Show("请选择" + RequestParamDGV.Rows[i].Cells["DK_NAME"].Value.ToString().Trim() + "的值");
                         return;
                     }
-                    string nameField = dgvRequestParam.Rows[i].Cells["DK_NAME"].Value.ToString().Trim();
-                    string valueField = dgvRequestParam.Rows[i].Cells["DK_VALUE"].Value.ToString().Trim();
+                    string nameField = RequestParamDGV.Rows[i].Cells["DK_NAME"].Value.ToString().Trim();
+                    string valueField = RequestParamDGV.Rows[i].Cells["DK_VALUE"].Value.ToString().Trim();
 
                     if (nameField != null && nameField.Split('|').Length == 2)
                     {
@@ -782,6 +923,10 @@ namespace OnlinePayTools
                                 return;
                             }
                             value = (Convert.ToInt64(amount) * 100).ToString().PadLeft(12, '0');
+                        }
+                        if (key == "certNo")
+                        {
+                            tempDic.Add("cardId", value);
                         }
                         tempDic.Add(key, value);
                     }
@@ -1029,7 +1174,230 @@ namespace OnlinePayTools
                 return;
             }
         }
-        
+
+
+        /// <summary>
+        /// 杉德代扣处理
+        /// </summary>
+        /// <param name="RequestParamDGV"></param>
+        /// <param name="dt"></param>
+        /// <param name="mchId"></param>
+        /// <param name="mchName"></param>
+        /// <param name="pfxPath"></param>
+        /// <param name="pfxPwd"></param>
+        /// <param name="cerPath"></param>
+        private void doSandDF(DataGridView RequestParamDGV, DataTable dt, string mchId, string mchName, string pfxPath, string pfxPwd, string cerPath)
+        {
+            List<Dictionary<string, string>> batchDFparams = new List<Dictionary<string, string>>();
+            if (dt == null)
+            { //单笔
+                Dictionary<string, string> tempDic = new Dictionary<string, string>();
+                int rowCount = RequestParamDGV.Rows.Count;
+                for (int i = 0; i < rowCount; i++)
+                {
+                    string key = "";
+                    string value = "";
+                    if (RequestParamDGV.Rows[i].Cells[1] == null || RequestParamDGV.Rows[i].Cells[1].Value == null)
+                    {
+                        MessageBox.Show("请选择" + RequestParamDGV.Rows[i].Cells[0].Value.ToString().Trim() + "的值");
+                        return;
+                    }
+                    string nameField = RequestParamDGV.Rows[i].Cells[0].Value.ToString().Trim();
+                    string valueField = RequestParamDGV.Rows[i].Cells[1].Value.ToString().Trim();
+
+                    if (nameField != null && nameField.Split('|').Length == 2)
+                    {
+                        key = nameField.Split('|')[0];
+                        value = valueField;
+                        if (key == "tranAmt")
+                        {
+                            int amount = 0;
+                            if (!int.TryParse(value, out amount))
+                            {
+                                MessageBox.Show("代扣金额格式不正确");
+                                return;
+                            }
+                            value = (Convert.ToInt64(amount) * 100).ToString().PadLeft(12, '0');
+                        }
+                        tempDic.Add(key, value);
+                    }
+                }
+                batchDFparams.Add(tempDic);
+            }
+            else if (dt != null && dt.Rows.Count > 0)
+            {
+                for (int i = 1; i < dt.Rows.Count; i++)
+                {
+                    Dictionary<string, string> tempDic = new Dictionary<string, string>();
+                    tempDic.Add("version", "01");
+                    //tempDic.Add("productId", "00000002");
+                    tempDic.Add("tranTime", DateTime.Now.ToString("yyyyMMddHHmmss"));
+                    tempDic.Add("orderCode", dt.Rows[i][0].ToString());
+                    int amount = 0;
+                    if (!int.TryParse(dt.Rows[i][1].ToString(), out amount))
+                    {
+                        MessageBox.Show("第" + (i + 1) + "行代付金额格式不正确");
+                        return;
+                    }
+                    string amountStr = (Convert.ToInt64(amount) * 100).ToString().PadLeft(12, '0');
+                    tempDic.Add("tranAmt", amountStr);
+                    tempDic.Add("currencyCode", "156");
+                    tempDic.Add("accAttr", dt.Rows[i][2].ToString());
+                    tempDic.Add("accType", dt.Rows[i][3].ToString());
+                    tempDic.Add("accNo", dt.Rows[i][4].ToString());
+                    tempDic.Add("accName", dt.Rows[i][5].ToString());
+                    tempDic.Add("bankName", "");
+                    tempDic.Add("provNo", "010000");
+                    tempDic.Add("cityNo", "");
+                    tempDic.Add("certType", dt.Rows[i][6].ToString());
+                    tempDic.Add("certNo", dt.Rows[i][7].ToString());
+                    tempDic.Add("cardId", dt.Rows[i][8].ToString());
+                    tempDic.Add("phone", dt.Rows[i][9].ToString());
+                    tempDic.Add("bankInsCode", "");
+                    tempDic.Add("purpose", "collection");
+                    tempDic.Add("reqReserved", "");
+                    tempDic.Add("extend", "");
+                    batchDFparams.Add(tempDic);
+                }
+            }
+            try
+            {
+                int count = 0;
+                List<string> successRecord = new List<string>();
+                List<string> errorRecord = new List<string>();
+                List<string> processingRecord = new List<string>();
+                foreach (Dictionary<string, string> dic in batchDFparams)
+                {
+                    count++;
+                    string orderId = "200" + DateTime.Now.ToString("yyyyMMddHHmmss").Substring(2) + ComUtils.CreateRandomNum(4);
+                    //orderId,mchId,mchName,status,amount,bankOrderNo,outOrderId,,createTime,updateTime,respCode,respMsg,remark
+                    try
+                    {
+                        string payType = "0";
+                        if (dic["accAttr"].Equals("0"))
+                        {
+                            payType = "0";//对私
+                            dic.Add("productId", "00000004");
+                        }
+                        else if (dic["accAttr"].Equals("1"))
+                        {
+                            payType = "1";//对公
+                            dic.Add("productId", "00000003");
+                        }
+
+                        //杉德的tranTime需要用于查询    
+                        DateTime tranDt = DateTime.ParseExact(dic["tranTime"], "yyyyMMddHHmmss", System.Globalization.CultureInfo.CurrentCulture);
+
+                        Settings cfg = Settings.Default;
+                        DbUtility dbUtil = new DbUtility(cfg.localConnectionString, DbProviderType.OleDb);
+                        string isExsitOrderSqlStr = "select * from CollectionOrder c where c.outOrderId='" + dic["orderCode"] + "' and c.mchId='" + mchId + "'";
+                        DataTable isExistDt = dbUtil.ExecuteDataTable(isExsitOrderSqlStr, null);
+                        if (isExistDt != null && isExistDt.Rows.Count > 0)
+                        {
+                            MessageBox.Show("该订单号已存在，请更换订单号。");
+                            return;
+                        }
+                        //保存记录
+                        string strInsertSql = "insert into CollectionOrder(orderId,orderType,mchId,mchName,status,amount,payType,bankOrderNo,outOrderId,createTime,updateTime,respCode,respMsg,remark)"
+                               + " VALUES ('" + orderId + "'"
+                               + ",'df'"
+                               + ",'" + mchId + "'"
+                               + ",'" + mchName + "'"
+                               + ",0"
+                               + "," + Convert.ToInt64(dic["tranAmt"])//转为分存储
+                               + ",'" + payType + "'"//对公对私标识
+                               + ",''"
+                               + ",'" + dic["orderCode"] + "'"
+                               + ",'" + tranDt.ToString("yyyy/MM/dd HH:mm:ss") + "'"
+                               + ",null"
+                               + ",''"
+                               + ",''"
+                               + ",''"
+                               + ")";
+                        int effectNo = dbUtil.ExecuteNonQuery(strInsertSql, null);
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show(ex.Message);
+                        log.Write(ex, MsgType.Error);
+                        return;
+                    }
+                    //将订单号变为数据库数据，防止订单重复。
+                    dic.Remove("orderCode");
+                    dic.Add("orderCode", orderId);
+
+                    //解密后的服务器返回
+                    BaseRequest sandRequest = new SandRequest(dic, mchId, mchName, pfxPath, pfxPwd, cerPath, "");
+                    BaseResponse sandResponse = new SandResponse();
+                    sandResponse = sandRequest.doAgentPay();
+                    try
+                    {
+                        string strInsertSql = "update CollectionOrder set "
+                               + " status = " + sandResponse.status
+                               + ", updateTime='" + DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss") + "'"
+                               + ", bankOrderNo='" + sandResponse.bankOrderNo + "'"
+                               + ",respCode='" + sandResponse.respCode + "'"
+                               + ",respMsg='" + sandResponse.respMsg + "'"
+                               + " where orderId='" + sandResponse.orderId + "'";
+                        Settings cfg = Settings.Default;
+                        DbUtility dbUtil = new DbUtility(cfg.localConnectionString, DbProviderType.OleDb);
+                        int effectNo = dbUtil.ExecuteNonQuery(strInsertSql, null);
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show(ex.Message);
+                        log.Write(ex, MsgType.Error);
+                        return;
+                    }
+                    if ("0000".Equals(sandResponse.returnCode))
+                    {
+                        if ("1".Equals(sandResponse.status))
+                        {
+                            successRecord.Add(sandResponse.orderId);
+                            if (1 == batchDFparams.Count)
+                            {
+                                MessageBox.Show("代付完成，成功！");
+                            }
+                        }
+                        else if ("2".Equals(sandResponse.status))
+                        {
+                            errorRecord.Add(sandResponse.orderId);
+                            if (1 == batchDFparams.Count)
+                            {
+                                MessageBox.Show("代付失败，错误原因：" + sandResponse.respMsg);
+                            }
+                        }
+                        else
+                        {
+                            processingRecord.Add(sandResponse.orderId);
+                            if (1 == batchDFparams.Count)
+                            {
+                                MessageBox.Show("代付提交完成，银行处理中");
+                            }
+                        }
+                    }
+                    else
+                    {
+                        errorRecord.Add(sandResponse.orderId);
+                        if (count == batchDFparams.Count)
+                        {
+                            MessageBox.Show("代付提交异常！错误码：" + sandResponse.respCode + "(" + sandResponse.respMsg + ")");
+                        }
+                    }
+                }
+                if (1 != batchDFparams.Count)
+                {
+                    MessageBox.Show("代付完成，共" + batchDFparams.Count + "笔，成功：" + successRecord.Count + "笔，进行中：" + processingRecord.Count + "笔，失败或异常：" + errorRecord.Count + "笔。");
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+                log.Write(ex, MsgType.Error);
+            }
+        }
+
+
         #region TODO:通用方法构建
         private void doCollection(BaseRequest request,DataTable dt,BaseRequestParamList baseRequestParamList)
         {
@@ -1228,18 +1596,18 @@ namespace OnlinePayTools
             if (dt == null)
             { //单笔
                 Dictionary<string, string> tempDic = new Dictionary<string, string>();
-                int rowCount = this.dgvRequestParam.Rows.Count;
+                int rowCount = RequestParamDGV.Rows.Count;
                 for (int i = 0; i < rowCount; i++)
                 {
                     string key = "";
                     string value = "";
-                    if (dgvRequestParam.Rows[i].Cells["DK_VALUE"] == null || dgvRequestParam.Rows[i].Cells["DK_VALUE"].Value == null)
+                    if (RequestParamDGV.Rows[i].Cells["DK_VALUE"] == null || RequestParamDGV.Rows[i].Cells["DK_VALUE"].Value == null)
                     {
-                        MessageBox.Show("请选择" + dgvRequestParam.Rows[i].Cells["DK_NAME"].Value.ToString().Trim() + "的值");
+                        MessageBox.Show("请选择" + RequestParamDGV.Rows[i].Cells["DK_NAME"].Value.ToString().Trim() + "的值");
                         return;
                     }
-                    string nameField = dgvRequestParam.Rows[i].Cells["DK_NAME"].Value.ToString().Trim();
-                    string valueField = dgvRequestParam.Rows[i].Cells["DK_VALUE"].Value.ToString().Trim();
+                    string nameField = RequestParamDGV.Rows[i].Cells["DK_NAME"].Value.ToString().Trim();
+                    string valueField = RequestParamDGV.Rows[i].Cells["DK_VALUE"].Value.ToString().Trim();
 
                     if (nameField != null && nameField.Split('|').Length == 2)
                     {
@@ -1471,24 +1839,24 @@ namespace OnlinePayTools
         /// <param name="cerPath"></param>
         private void doSdjDF(DataGridView RequestParamDGV, DataTable dt, string mchId, string mchName, string orgKey, string pfxPath, string pfxPwd, string cerPath)
         {
-            List<Dictionary<string, string>> batchDKparams = new List<Dictionary<string, string>>();
+            List<Dictionary<string, string>> batchDFparams = new List<Dictionary<string, string>>();
             if (dt == null)
             { //单笔
                 Dictionary<string, string> tempDic = new Dictionary<string, string>();
-                int rowCount = this.dgvPayRequest.Rows.Count;
+                int rowCount = RequestParamDGV.Rows.Count;
                 for (int i = 0; i < rowCount; i++)
                 {
                     string key = "";
                     string value = "";
-                    if (dgvPayRequest.Rows[i].Cells[1] == null || dgvPayRequest.Rows[i].Cells[1].Value == null)
+                    if (RequestParamDGV.Rows[i].Cells[1] == null || RequestParamDGV.Rows[i].Cells[1].Value == null)
                     {
-                        MessageBox.Show("请选择" + dgvPayRequest.Rows[i].Cells[0].Value.ToString().Trim() + "的值");
+                        MessageBox.Show("请选择" + RequestParamDGV.Rows[i].Cells[0].Value.ToString().Trim() + "的值");
                         return;
                     }
-                    string nameField = dgvPayRequest.Rows[i].Cells[0].Value.ToString().Trim();
-                    string valueField = dgvPayRequest.Rows[i].Cells[1].Value.ToString().Trim();
-                    string textField = dgvPayRequest.Rows[i].Cells[1].Value.ToString().Trim();
-                    DataGridViewCell cell = dgvPayRequest.Rows[i].Cells[1];//得到单元格
+                    string nameField = RequestParamDGV.Rows[i].Cells[0].Value.ToString().Trim();
+                    string valueField = RequestParamDGV.Rows[i].Cells[1].Value.ToString().Trim();
+                    string textField = RequestParamDGV.Rows[i].Cells[1].Value.ToString().Trim();
+                    DataGridViewCell cell = RequestParamDGV.Rows[i].Cells[1];//得到单元格
                     if (cell is DataGridViewComboBoxCell)
                     {
                         DataGridViewComboBoxCell cb = cell as DataGridViewComboBoxCell;
@@ -1504,7 +1872,7 @@ namespace OnlinePayTools
                             int amount = 0;
                             if (!int.TryParse(value, out amount))
                             {
-                                MessageBox.Show("代扣金额格式不正确");
+                                MessageBox.Show("代付金额格式不正确");
                                 return;
                             }
                         }
@@ -1520,7 +1888,7 @@ namespace OnlinePayTools
                         tempDic.Add(key, value);
                     }
                 }
-                batchDKparams.Add(tempDic);
+                batchDFparams.Add(tempDic);
             }
             else if (dt != null && dt.Rows.Count > 0)
             {
@@ -1555,7 +1923,7 @@ namespace OnlinePayTools
                     tempDic.Add("purpose", "collection");
                     tempDic.Add("reqReserved", "");
                     tempDic.Add("extend", "");
-                    batchDKparams.Add(tempDic);
+                    batchDFparams.Add(tempDic);
                 }
             }
             try
@@ -1564,7 +1932,7 @@ namespace OnlinePayTools
                 List<string> successRecord = new List<string>();
                 List<string> errorRecord = new List<string>();
                 List<string> processingRecord = new List<string>();
-                foreach (Dictionary<string, string> dic in batchDKparams)
+                foreach (Dictionary<string, string> dic in batchDFparams)
                 {
                     count++;
                     string orderId = "200" + DateTime.Now.ToString("yyyyMMddHHmmss").Substring(2) + ComUtils.CreateRandomNum(4);
@@ -1644,7 +2012,7 @@ namespace OnlinePayTools
                         if ("1".Equals(sdjResponse.status))
                         {
                             successRecord.Add(sdjResponse.orderId);
-                            if (1 == batchDKparams.Count)
+                            if (1 == batchDFparams.Count)
                             {
                                 MessageBox.Show("代付完成，成功！");
                             }
@@ -1652,7 +2020,7 @@ namespace OnlinePayTools
                         else if ("2".Equals(sdjResponse.status))
                         {
                             errorRecord.Add(sdjResponse.orderId);
-                            if (1 == batchDKparams.Count)
+                            if (1 == batchDFparams.Count)
                             {
                                 MessageBox.Show("代付失败，错误原因：" + sdjResponse.respMsg);
                             }
@@ -1660,7 +2028,7 @@ namespace OnlinePayTools
                         else
                         {
                             processingRecord.Add(sdjResponse.orderId);
-                            if (1 == batchDKparams.Count)
+                            if (1 == batchDFparams.Count)
                             {
                                 MessageBox.Show("代付提交完成，银行处理中");
                             }
@@ -1669,15 +2037,15 @@ namespace OnlinePayTools
                     else
                     {
                         errorRecord.Add(sdjResponse.orderId);
-                        if (count == batchDKparams.Count)
+                        if (count == batchDFparams.Count)
                         {
                             MessageBox.Show("代付提交异常！错误码：" + sdjResponse.respCode + "(" + sdjResponse.respMsg + ")");
                         }
                     }
                 }
-                if (1 != batchDKparams.Count)
+                if (1 != batchDFparams.Count)
                 {
-                    MessageBox.Show("代付完成，共" + batchDKparams.Count + "笔，成功：" + successRecord.Count + "笔，进行中：" + processingRecord.Count + "笔，失败或异常：" + errorRecord.Count + "笔。");
+                    MessageBox.Show("代付完成，共" + batchDFparams.Count + "笔，成功：" + successRecord.Count + "笔，进行中：" + processingRecord.Count + "笔，失败或异常：" + errorRecord.Count + "笔。");
                 }
             }
             catch (Exception ex)
@@ -1688,5 +2056,427 @@ namespace OnlinePayTools
         }
 
         #endregion
+
+        #region 银盈通平台
+        private void doYytDK(DataGridView RequestParamDGV, DataTable dt, string mchId, string mchName, string tId, string wId, string fId, string aId,string appKey)
+        {
+            List<Dictionary<string, string>> batchDKparams = new List<Dictionary<string, string>>();
+            if (dt == null)
+            { //单笔
+                Dictionary<string, string> tempDic = new Dictionary<string, string>();
+                int rowCount = RequestParamDGV.Rows.Count;
+                for (int i = 0; i < rowCount; i++)
+                {
+                    string key = "";
+                    string value = "";
+                    if (RequestParamDGV.Rows[i].Cells["DK_VALUE"] == null || RequestParamDGV.Rows[i].Cells["DK_VALUE"].Value == null)
+                    {
+                        MessageBox.Show("请选择" + RequestParamDGV.Rows[i].Cells["DK_NAME"].Value.ToString().Trim() + "的值");
+                        return;
+                    }
+                    string nameField = RequestParamDGV.Rows[i].Cells["DK_NAME"].Value.ToString().Trim();
+                    string valueField = RequestParamDGV.Rows[i].Cells["DK_VALUE"].Value.ToString().Trim();
+
+                    if (nameField != null && nameField.Split('|').Length == 2)
+                    {
+                        key = nameField.Split('|')[0];
+                        value = valueField;
+                        if (key == "amount")
+                        {
+                            int amount = 0;
+                            if (!int.TryParse(value, out amount))
+                            {
+                                MessageBox.Show("代扣金额格式不正确");
+                                return;
+                            }
+                        }
+                        if (key == "province_code")
+                        {
+                            value = value.PadRight(6, '0');   
+                        }
+                        tempDic.Add(key, value);
+                    }
+                }
+                batchDKparams.Add(tempDic);
+            }
+            else if (dt != null && dt.Rows.Count > 0)
+            {
+                for (int i = 1; i < dt.Rows.Count; i++)
+                {
+                    Dictionary<string, string> tempDic = new Dictionary<string, string>();
+                    tempDic.Add("version", "01");
+                    //tempDic.Add("productId", "00000002");
+                    tempDic.Add("tranTime", DateTime.Now.ToString("yyyyMMddHHmmss"));
+                    tempDic.Add("orderCode", dt.Rows[i][0].ToString());
+                    int amount = 0;
+                    if (!int.TryParse(dt.Rows[i][1].ToString(), out amount))
+                    {
+                        MessageBox.Show("第" + (i + 1) + "行代扣金额格式不正确");
+                        return;
+                    }
+                    string amountStr = (Convert.ToInt64(amount) * 100).ToString();
+                    tempDic.Add("tranAmt", amountStr);
+                    tempDic.Add("currencyCode", "156");
+                    tempDic.Add("accAttr", dt.Rows[i][2].ToString());
+                    tempDic.Add("accType", dt.Rows[i][3].ToString());
+                    tempDic.Add("accNo", dt.Rows[i][4].ToString());
+                    tempDic.Add("accName", dt.Rows[i][5].ToString());
+                    tempDic.Add("bankName", "");
+                    tempDic.Add("provNo", "010000");
+                    tempDic.Add("cityNo", "");
+                    tempDic.Add("certType", dt.Rows[i][6].ToString());
+                    tempDic.Add("certNo", dt.Rows[i][7].ToString());
+                    tempDic.Add("cardId", dt.Rows[i][8].ToString());
+                    tempDic.Add("phone", dt.Rows[i][9].ToString());
+                    tempDic.Add("bankInsCode", "");
+                    tempDic.Add("purpose", "collection");
+                    tempDic.Add("reqReserved", "");
+                    tempDic.Add("extend", "");
+                    batchDKparams.Add(tempDic);
+                }
+            }
+            try
+            {
+                int count = 0;
+                List<string> successRecord = new List<string>();
+                List<string> errorRecord = new List<string>();
+                List<string> processingRecord = new List<string>();
+                foreach (Dictionary<string, string> dic in batchDKparams)
+                {
+                    count++;
+                    string orderId = "200" + DateTime.Now.ToString("yyyyMMddHHmmss").Substring(2) + ComUtils.CreateRandomNum(4);
+                    //orderId,mchId,mchName,status,amount,bankOrderNo,outOrderId,,createTime,updateTime,respCode,respMsg,remark
+                    try
+                    {
+                        string payType = "0";//0:对私,1:对公
+                        Settings cfg = Settings.Default;
+                        DbUtility dbUtil = new DbUtility(cfg.localConnectionString, DbProviderType.OleDb);
+                        string isExsitOrderSqlStr = "select * from CollectionOrder c where c.outOrderId='" + dic["order_number"] + "' and c.mchId='" + mchId + "'";
+                        DataTable isExistDt = dbUtil.ExecuteDataTable(isExsitOrderSqlStr, null);
+                        if (isExistDt != null && isExistDt.Rows.Count > 0)
+                        {
+                            MessageBox.Show("该订单号已存在，请更换订单号。");
+                            return;
+                        }
+                        //保存记录
+                        string strInsertSql = "insert into CollectionOrder(orderId,orderType,mchId,mchName,status,amount,payType,bankOrderNo,outOrderId,createTime,updateTime,respCode,respMsg,remark)"
+                               + " VALUES ('" + orderId + "'"
+                               + ",'dk'"
+                               + ",'" + mchId + "'"
+                               + ",'" + mchName + "'"
+                               + ",0"
+                               + "," + Convert.ToInt64(dic["amount"]) * 100//转为分存储
+                               + ",'" + payType + "'"//对公对私标识
+                               + ",''"
+                               + ",'" + dic["order_number"] + "'"
+                               + ",'" + DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss") + "'"
+                               + ",null"
+                               + ",''"
+                               + ",''"
+                               + ",''"
+                               + ")";
+                        int effectNo = dbUtil.ExecuteNonQuery(strInsertSql, null);
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show(ex.Message);
+                        log.Write(ex, MsgType.Error);
+                        return;
+                    }
+                    //将订单号变为数据库数据，防止订单重复。
+                    dic.Remove("order_number");
+                    dic.Add("order_number", orderId);
+                    dic.Add("req_no", orderId);
+                    BaseRequest  yytRequest = new YytRequest(dic, mchId, mchName, tId, wId, fId, aId,appKey);
+                    BaseResponse yytResponse = new YytResponse();
+                    yytResponse = yytRequest.doCollection();
+                    try
+                    {
+                        string strInsertSql = "update CollectionOrder set "
+                               + " status = " + yytResponse.status
+                               + ", updateTime='" + DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss") + "'"
+                               + ", bankOrderNo='" + yytResponse.bankOrderNo + "'"
+                               + ",respCode='" + yytResponse.respCode + "'"
+                               + ",respMsg='" + yytResponse.respMsg + "'"
+                               + " where orderId='" + yytResponse.orderId + "'";
+                        Settings cfg = Settings.Default;
+                        DbUtility dbUtil = new DbUtility(cfg.localConnectionString, DbProviderType.OleDb);
+                        int effectNo = dbUtil.ExecuteNonQuery(strInsertSql, null);
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show(ex.Message);
+                        log.Write(ex, MsgType.Error);
+                        return;
+                    }
+                    if ("0000".Equals(yytResponse.returnCode))
+                    {
+                        if ("1".Equals(yytResponse.status))
+                        {
+                            successRecord.Add(yytResponse.orderId);
+                            if (1 == batchDKparams.Count)
+                            {
+                                MessageBox.Show("代扣完成，成功！");
+                            }
+                        }
+                        else if ("2".Equals(yytResponse.status))
+                        {
+                            errorRecord.Add(yytResponse.orderId);
+                            if (1 == batchDKparams.Count)
+                            {
+                                MessageBox.Show("代扣失败，错误原因：" + yytResponse.respMsg);
+                            }
+                        }
+                        else
+                        {
+                            processingRecord.Add(yytResponse.orderId);
+                            if (1 == batchDKparams.Count)
+                            {
+                                MessageBox.Show("代扣提交完成，银行处理中");
+                            }
+                        }
+                    }
+                    else
+                    {
+                        errorRecord.Add(yytResponse.orderId);
+                        if (count == batchDKparams.Count)
+                        {
+                            MessageBox.Show("代扣提交异常！错误码：" + yytResponse.respCode + "(" + yytResponse.respMsg + ")");
+                        }
+                    }
+                }
+                if (1 != batchDKparams.Count)
+                {
+                    MessageBox.Show("代扣完成，共" + batchDKparams.Count + "笔，成功：" + successRecord.Count + "笔，进行中：" + processingRecord.Count + "笔，失败或异常：" + errorRecord.Count + "笔。");
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+                log.Write(ex, MsgType.Error);
+            }
+        }
+
+        private void doYytDF(DataGridView RequestParamDGV, DataTable dt, string mchId, string mchName, string orgKey, string pfxPath, string pfxPwd, string cerPath)
+        {
+            List<Dictionary<string, string>> batchDFparams = new List<Dictionary<string, string>>();
+            if (dt == null)
+            { //单笔
+                Dictionary<string, string> tempDic = new Dictionary<string, string>();
+                int rowCount = RequestParamDGV.Rows.Count;
+                for (int i = 0; i < rowCount; i++)
+                {
+                    string key = "";
+                    string value = "";
+                    if (RequestParamDGV.Rows[i].Cells[1] == null || RequestParamDGV.Rows[i].Cells[1].Value == null)
+                    {
+                        MessageBox.Show("请选择" + RequestParamDGV.Rows[i].Cells[0].Value.ToString().Trim() + "的值");
+                        return;
+                    }
+                    string nameField = RequestParamDGV.Rows[i].Cells[0].Value.ToString().Trim();
+                    string valueField = RequestParamDGV.Rows[i].Cells[1].Value.ToString().Trim();
+                    string textField = RequestParamDGV.Rows[i].Cells[1].Value.ToString().Trim();
+                    DataGridViewCell cell = RequestParamDGV.Rows[i].Cells[1];//得到单元格
+                    if (cell is DataGridViewComboBoxCell)
+                    {
+                        DataGridViewComboBoxCell cb = cell as DataGridViewComboBoxCell;
+
+                        textField = cb.EditedFormattedValue.ToString();
+                    }
+                    if (nameField != null && nameField.Split('|').Length == 2)
+                    {
+                        key = nameField.Split('|')[0];
+                        value = valueField;
+                        if (key == "payAmount")
+                        {
+                            int amount = 0;
+                            if (!int.TryParse(value, out amount))
+                            {
+                                MessageBox.Show("代付金额格式不正确");
+                                return;
+                            }
+                        }
+                        if (key == "payeeBankName")//银行和Code特殊处理
+                        {
+                            if (tempDic.ContainsKey("bankCode"))
+                            {
+                                tempDic.Remove("bankCode");
+                                tempDic.Add("bankCode", value);
+                            }
+                            tempDic.Add(key, textField);
+                            continue;
+                        }
+                        tempDic.Add(key, value);
+                    }
+                }
+                batchDFparams.Add(tempDic);
+            }
+            else if (dt != null && dt.Rows.Count > 0)
+            {
+                for (int i = 1; i < dt.Rows.Count; i++)
+                {
+                    Dictionary<string, string> tempDic = new Dictionary<string, string>();
+                    tempDic.Add("version", "01");
+                    //tempDic.Add("productId", "00000002");
+                    tempDic.Add("tranTime", DateTime.Now.ToString("yyyyMMddHHmmss"));
+                    tempDic.Add("orderCode", dt.Rows[i][0].ToString());
+                    int amount = 0;
+                    if (!int.TryParse(dt.Rows[i][1].ToString(), out amount))
+                    {
+                        MessageBox.Show("第" + (i + 1) + "行代扣金额格式不正确");
+                        return;
+                    }
+                    string amountStr = (Convert.ToInt64(amount) * 100).ToString().PadLeft(12, '0');
+                    tempDic.Add("tranAmt", amountStr);
+                    tempDic.Add("currencyCode", "156");
+                    tempDic.Add("accAttr", dt.Rows[i][2].ToString());
+                    tempDic.Add("accType", dt.Rows[i][3].ToString());
+                    tempDic.Add("accNo", dt.Rows[i][4].ToString());
+                    tempDic.Add("accName", dt.Rows[i][5].ToString());
+                    tempDic.Add("bankName", "");
+                    tempDic.Add("provNo", "010000");
+                    tempDic.Add("cityNo", "");
+                    tempDic.Add("certType", dt.Rows[i][6].ToString());
+                    tempDic.Add("certNo", dt.Rows[i][7].ToString());
+                    tempDic.Add("cardId", dt.Rows[i][8].ToString());
+                    tempDic.Add("phone", dt.Rows[i][9].ToString());
+                    tempDic.Add("bankInsCode", "");
+                    tempDic.Add("purpose", "collection");
+                    tempDic.Add("reqReserved", "");
+                    tempDic.Add("extend", "");
+                    batchDFparams.Add(tempDic);
+                }
+            }
+            try
+            {
+                int count = 0;
+                List<string> successRecord = new List<string>();
+                List<string> errorRecord = new List<string>();
+                List<string> processingRecord = new List<string>();
+                foreach (Dictionary<string, string> dic in batchDFparams)
+                {
+                    count++;
+                    string orderId = "200" + DateTime.Now.ToString("yyyyMMddHHmmss").Substring(2) + ComUtils.CreateRandomNum(4);
+                    //orderId,mchId,mchName,status,amount,bankOrderNo,outOrderId,,createTime,updateTime,respCode,respMsg,remark
+                    try
+                    {
+                        string payType = "0";//0:对私,1:对公
+                        if (dic["bankAccountType"].Equals("INDIVIDUAL"))
+                        {
+                            payType = "0";//对私
+                        }
+                        else if (dic["bankAccountType"].Equals("OPEN"))
+                        {
+                            payType = "1";//对公
+                        }
+                        Settings cfg = Settings.Default;
+                        DbUtility dbUtil = new DbUtility(cfg.localConnectionString, DbProviderType.OleDb);
+                        string isExsitOrderSqlStr = "select * from CollectionOrder c where c.outOrderId='" + dic["orderNo"] + "' and c.mchId='" + mchId + "'";
+                        DataTable isExistDt = dbUtil.ExecuteDataTable(isExsitOrderSqlStr, null);
+                        if (isExistDt != null && isExistDt.Rows.Count > 0)
+                        {
+                            MessageBox.Show("该订单号已存在，请更换订单号。");
+                            return;
+                        }
+                        //保存记录
+                        string strInsertSql = "insert into CollectionOrder(orderId,orderType,mchId,mchName,status,amount,payType,bankOrderNo,outOrderId,createTime,updateTime,respCode,respMsg,remark)"
+                               + " VALUES ('" + orderId + "'"
+                               + ",'df'"
+                               + ",'" + mchId + "'"
+                               + ",'" + mchName + "'"
+                               + ",0"
+                               + "," + Convert.ToInt64(dic["payAmount"]) * 100//转为分存储
+                               + ",'" + payType + "'"//对公对私标识
+                               + ",''"
+                               + ",'" + dic["orderNo"] + "'"
+                               + ",'" + DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss") + "'"
+                               + ",null"
+                               + ",''"
+                               + ",''"
+                               + ",''"
+                               + ")";
+                        int effectNo = dbUtil.ExecuteNonQuery(strInsertSql, null);
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show(ex.Message);
+                        log.Write(ex, MsgType.Error);
+                        return;
+                    }
+                    //将订单号变为数据库数据，防止订单重复。
+                    dic.Remove("orderNo");
+                    dic.Add("orderNo", orderId);
+                    BaseRequest sdjRequest = new SdjRequest(dic, mchId, mchName, pfxPath, pfxPwd, cerPath, orgKey);
+                    BaseResponse sdjResponse = new SdjResponse();
+                    sdjResponse = sdjRequest.doAgentPay();
+                    try
+                    {
+                        string strInsertSql = "update CollectionOrder set "
+                               + " status = " + sdjResponse.status
+                               + ", updateTime='" + DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss") + "'"
+                               + ", bankOrderNo='" + sdjResponse.bankOrderNo + "'"
+                               + ",respCode='" + sdjResponse.respCode + "'"
+                               + ",respMsg='" + sdjResponse.respMsg + "'"
+                               + " where orderId='" + sdjResponse.orderId + "'";
+                        Settings cfg = Settings.Default;
+                        DbUtility dbUtil = new DbUtility(cfg.localConnectionString, DbProviderType.OleDb);
+                        int effectNo = dbUtil.ExecuteNonQuery(strInsertSql, null);
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show(ex.Message);
+                        log.Write(ex, MsgType.Error);
+                        return;
+                    }
+                    if ("0000".Equals(sdjResponse.returnCode))
+                    {
+                        if ("1".Equals(sdjResponse.status))
+                        {
+                            successRecord.Add(sdjResponse.orderId);
+                            if (1 == batchDFparams.Count)
+                            {
+                                MessageBox.Show("代付完成，成功！");
+                            }
+                        }
+                        else if ("2".Equals(sdjResponse.status))
+                        {
+                            errorRecord.Add(sdjResponse.orderId);
+                            if (1 == batchDFparams.Count)
+                            {
+                                MessageBox.Show("代付失败，错误原因：" + sdjResponse.respMsg);
+                            }
+                        }
+                        else
+                        {
+                            processingRecord.Add(sdjResponse.orderId);
+                            if (1 == batchDFparams.Count)
+                            {
+                                MessageBox.Show("代付提交完成，银行处理中");
+                            }
+                        }
+                    }
+                    else
+                    {
+                        errorRecord.Add(sdjResponse.orderId);
+                        if (count == batchDFparams.Count)
+                        {
+                            MessageBox.Show("代付提交异常！错误码：" + sdjResponse.respCode + "(" + sdjResponse.respMsg + ")");
+                        }
+                    }
+                }
+                if (1 != batchDFparams.Count)
+                {
+                    MessageBox.Show("代付完成，共" + batchDFparams.Count + "笔，成功：" + successRecord.Count + "笔，进行中：" + processingRecord.Count + "笔，失败或异常：" + errorRecord.Count + "笔。");
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+                log.Write(ex, MsgType.Error);
+            }
+        }
+
+        #endregion
+
     }
 }

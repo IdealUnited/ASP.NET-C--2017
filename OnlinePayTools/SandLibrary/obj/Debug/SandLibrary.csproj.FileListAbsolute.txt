@@ -7,8 +7,6 @@ C:\Users\lijingneng\Documents\Visual Studio 2012\Projects\OnlinePayTools\SandLib
 C:\Users\lijingneng\Documents\Visual Studio 2012\Projects\OnlinePayTools\SandLibrary\bin\Debug\ComLibrary.pdb
 C:\Users\lijingneng\Source\Repos\ASP.NET-C--2017\OnlinePayTools\SandLibrary\bin\Debug\SandLibrary.dll
 C:\Users\lijingneng\Source\Repos\ASP.NET-C--2017\OnlinePayTools\SandLibrary\bin\Debug\SandLibrary.pdb
-C:\Users\lijingneng\Source\Repos\ASP.NET-C--2017\OnlinePayTools\SandLibrary\bin\Debug\ComLibrary.dll
-C:\Users\lijingneng\Source\Repos\ASP.NET-C--2017\OnlinePayTools\SandLibrary\bin\Debug\ComLibrary.pdb
 C:\Users\lijingneng\Source\Repos\ASP.NET-C--2017\OnlinePayTools\SandLibrary\obj\Debug\SandLibrary.csprojResolveAssemblyReference.cache
 C:\Users\lijingneng\Source\Repos\ASP.NET-C--2017\OnlinePayTools\SandLibrary\obj\Debug\SandLibrary.dll
 C:\Users\lijingneng\Source\Repos\ASP.NET-C--2017\OnlinePayTools\SandLibrary\obj\Debug\SandLibrary.pdb

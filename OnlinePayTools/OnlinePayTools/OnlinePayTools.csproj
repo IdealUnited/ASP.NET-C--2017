@@ -9,7 +9,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>OnlinePayTools</RootNamespace>
     <AssemblyName>OnlinePayTools</AssemblyName>
-    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <IsWebBootstrapper>false</IsWebBootstrapper>
     <TargetFrameworkProfile />
@@ -147,6 +147,10 @@
     <ProjectReference Include="..\SdjLibrary\SdjLibrary.csproj">
       <Project>{c41cca1c-cde6-4dfd-87ec-712a3931ad54}</Project>
       <Name>SdjLibrary</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\YytLibrary\YytLibrary.csproj">
+      <Project>{a206a88c-c2b7-491c-978f-24e12a33def4}</Project>
+      <Name>YytLibrary</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

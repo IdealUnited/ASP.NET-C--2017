@@ -34,3 +34,9 @@ C:\Users\lijingneng\Source\Repos\ASP.NET-C--2017\OnlinePayTools\OnlinePayTools\b
 C:\Users\lijingneng\Source\Repos\ASP.NET-C--2017\OnlinePayTools\OnlinePayTools\bin\Debug\SdjLibrary.pdb
 C:\Users\lijingneng\Source\Repos\ASP.NET-C--2017\OnlinePayTools\OnlinePayTools\bin\Debug\WebLibrary.dll
 C:\Users\lijingneng\Source\Repos\ASP.NET-C--2017\OnlinePayTools\OnlinePayTools\bin\Debug\WebLibrary.pdb
+C:\Users\lijingneng\Source\Repos\ASP.NET-C--2017\OnlinePayTools\OnlinePayTools\bin\Debug\YytLibrary.dll
+C:\Users\lijingneng\Source\Repos\ASP.NET-C--2017\OnlinePayTools\OnlinePayTools\bin\Debug\Yst.Framework.Cache.dll
+C:\Users\lijingneng\Source\Repos\ASP.NET-C--2017\OnlinePayTools\OnlinePayTools\bin\Debug\RestSharp.dll
+C:\Users\lijingneng\Source\Repos\ASP.NET-C--2017\OnlinePayTools\OnlinePayTools\bin\Debug\Newtonsoft.Json.dll
+C:\Users\lijingneng\Source\Repos\ASP.NET-C--2017\OnlinePayTools\OnlinePayTools\bin\Debug\Yst.Framework.Logging.dll
+C:\Users\lijingneng\Source\Repos\ASP.NET-C--2017\OnlinePayTools\OnlinePayTools\bin\Debug\YytLibrary.pdb

@@ -31,7 +31,7 @@ namespace SandLibrary
             ParamDiclist.Add("cityNo|开户城市编码|s|N", "");
             ParamDiclist.Add("certType|开户证件类型|listDic|Y", certTypIndivDicList);
             ParamDiclist.Add("certNo|开户证件号码|s|Y", "");
-            ParamDiclist.Add("cardId|身份证号|s|Y", "");
+            //ParamDiclist.Add("cardId|身份证号|s|Y", "");
             ParamDiclist.Add("phone|银行预留手机号|s|Y", "");
             ParamDiclist.Add("bankInsCode|银联机构号|s|N", "");
             ParamDiclist.Add("purpose|用途说明|s|N", "collection");

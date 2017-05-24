@@ -67,6 +67,57 @@ namespace SandLibrary
         }
 
 
+        public override BaseResponse doAgentPay()
+        {
+            BaseResponse sandResponse = new SandResponse();
+            JavaScriptSerializer jsonSer = new JavaScriptSerializer();
+            Dictionary<string, string> dicRslt;
+
+            MessageCryptWorker.trafficMessage resp = AgentPayMessage(this.requestDic, this.pfxPath, this.pfxPwd, this.cerPath, this.mchId);
+            //检查验签结果
+            log.Write("验签结果" + resp.sign);
+            //解析报文，读取业务报文体内具体字段的值
+            log.Write(resp.encryptData, MsgType.Information);
+            dicRslt = jsonSer.Deserialize<Dictionary<string, string>>(resp.encryptData);
+            //dicRslt = (Dictionary<string, string>)JsonUtil.JsonToObject(resp.encryptData, dicRslt);
+            sandResponse.orderId = dicRslt.ContainsKey("orderCode") ? dicRslt["orderCode"] : "";
+            sandResponse.respCode = dicRslt.ContainsKey("respCode") ? dicRslt["respCode"] : "";
+            sandResponse.respMsg = dicRslt.ContainsKey("respDesc") ? dicRslt["respDesc"] : "";
+            sandResponse.bankOrderNo = dicRslt.ContainsKey("sandSerial") ? dicRslt["sandSerial"] : "";
+            string resultFlag = dicRslt.ContainsKey("resultFlag") ? dicRslt["resultFlag"] : "";
+            log.Write("respCode[" + sandResponse.respCode + "]" + "respDesc[" + sandResponse.respMsg + "]");
+
+            sandResponse.status = "0";
+
+            if ("0000".Equals(sandResponse.respCode))
+            {
+                if ("0".Equals(resultFlag))
+                {
+                    sandResponse.returnCode = "0000";
+                    sandResponse.returnMsg = "处理完成";
+                    sandResponse.status = "1";
+                }
+                else if ("1".Equals(resultFlag))
+                {
+                    sandResponse.returnCode = "0002";
+                    sandResponse.returnMsg = "处理失败";
+                    sandResponse.status = "2";
+                }
+                else
+                {
+                    sandResponse.returnCode = "9999";
+                    sandResponse.returnMsg = sandResponse.respMsg;
+                }
+            }
+            else
+            {
+                sandResponse.returnCode = "9999";
+                sandResponse.returnMsg = sandResponse.respMsg;
+            }
+            return sandResponse;
+        }
+
+
         public override ComLibrary.BaseResponse doQuery()
         {
             BaseResponse sandResponse = new SandResponse();
@@ -142,8 +193,8 @@ namespace SandLibrary
             worker.PFXFile = pfxPath; //商户pfx证书路径
             worker.PFXPassword = pfxPwd;  //商户pfx证书密码
             worker.CerFile = cerPath; //杉德cer证书路径
-            string ServerUrl = "http://61.129.71.103:7970/agent-main/openapi/collection";
-            //string ServerUrl = "https://caspay.sandpay.com.cn/agent-main/openapi/collection";
+            //string ServerUrl = "http://61.129.71.103:7970/agent-main/openapi/collection";
+            string ServerUrl = "https://caspay.sandpay.com.cn/agent-main/openapi/collection";
             msgRequestSource.merId = mchId; //商户号
             msgRequestSource.transCode = "RTCO";        //交易代码
             msgRequestSource.extend = "";               //扩展域
@@ -197,8 +248,8 @@ namespace SandLibrary
             //encrytpKey会在发送前加密时自动生成16位的随机字符
 
             log.Write("待发送报文为：" + msgRequestSource.encryptData);
-            string ServerUrl = "http://61.129.71.103:7970/agent-main/openapi/queryOrder";
-            //string ServerUrl = "https://caspay.sandpay.com.cn/agent-main/openapi/queryOrder";
+            //string ServerUrl = "http://61.129.71.103:7970/agent-main/openapi/queryOrder";
+            string ServerUrl = "https://caspay.sandpay.com.cn/agent-main/openapi/queryOrder";
 
             MessageCryptWorker.trafficMessage respMessage = worker.postMessage(ServerUrl, msgRequestSource);
 
